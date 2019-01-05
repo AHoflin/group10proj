@@ -1,0 +1,135 @@
+{
+  "project_info": {
+    "project_number": "730332516320",
+    "firebase_url": "https://fir-image-193ae.firebaseio.com",
+    "project_id": "fir-image-193ae",
+    "storage_bucket": "fir-image-193ae.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:730332516320:android:390b702a6245b76e",
+        "android_client_info": {
+          "package_name": "com.example.jdeiv.picoftheday"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "730332516320-q00d0qibei8ieont4c8k82d1tgjtkl8l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCi9rFWmKO-FcAcW-0JuIZjb_7TNp_Ujmo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:730332516320:android:c3fad9206e82d504",
+        "android_client_info": {
+          "package_name": "com.example.mats.firebaseimageupload"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "730332516320-q00d0qibei8ieont4c8k82d1tgjtkl8l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCi9rFWmKO-FcAcW-0JuIZjb_7TNp_Ujmo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:730332516320:android:df7a2a11f5b7a580",
+        "android_client_info": {
+          "package_name": "com.example.mats.imageupload"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "730332516320-q00d0qibei8ieont4c8k82d1tgjtkl8l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCi9rFWmKO-FcAcW-0JuIZjb_7TNp_Ujmo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:730332516320:android:337704cfd1c45671",
+        "android_client_info": {
+          "package_name": "com.example.mats.potd"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "730332516320-q00d0qibei8ieont4c8k82d1tgjtkl8l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCi9rFWmKO-FcAcW-0JuIZjb_7TNp_Ujmo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
