@@ -39,8 +39,8 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
         when(item.itemId) {
             R.id.navigation_camera -> {
                 toolbar.title = "Camera"
-                val intent = Intent(this, UploadActivity::class.java)
-                startActivity(intent)
+                /*val intent = Intent(this, UploadActivity::class.java)
+                startActivity(intent)*/
                 val cameraFragment = CameraFragment.newInstance()
                 openFragment(cameraFragment)
                 return@OnNavigationItemSelectedListener true
@@ -82,8 +82,6 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
         toolbar = supportActionBar!!
         val bottomNavigation: BottomNavigationView = findViewById(R.id.bottomNavigationView)
         bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-
-
 
     }
 
@@ -192,6 +190,10 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
         } else {
             return super.onOptionsItemSelected(item)
         }
+    }
+
+    fun getContextOfApplication(): Context? {
+        return applicationContext
     }
 
 }
