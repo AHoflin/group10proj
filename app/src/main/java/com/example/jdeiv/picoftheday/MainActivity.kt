@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
         when(item.itemId) {
             R.id.navigation_camera -> {
                 toolbar.title = "Camera"
+                //Some of these lines can be removed
                 val intent = Intent(this, UploadActivity::class.java)
                 startActivity(intent)
                 val cameraFragment = CameraFragment.newInstance()
