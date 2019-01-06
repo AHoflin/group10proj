@@ -175,7 +175,7 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         // Inflating the toolbar menu
-        menuInflater.inflate(R.menu.top_menu, menu)
+        menuInflater.inflate(R.menu.top_menu_main, menu)
         return true
     }
 
@@ -187,7 +187,7 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
             Toast.makeText(this, "Settings button clicked", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
-            /* The following return should not run but is necessary in order to compile */
+            /* The following return should not run, but is necessary in order to compile */
             return false
         } else {
             return super.onOptionsItemSelected(item)
