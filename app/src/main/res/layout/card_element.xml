@@ -22,7 +22,6 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="16dp"
-                    android:src=""
                     android:layout_gravity="center"
                     android:background="@android:color/black"
 
@@ -62,7 +61,7 @@
                     android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent"
             />
             <TextView
-                    android:text="13 m, Västerås"
+                    android:text="time tag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView"
