@@ -37,10 +37,10 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
         when(item.itemId) {
             R.id.navigation_camera -> {
                 toolbar.title = "Camera"
-                val cameraFragment = CameraFragment.newInstance()
-                openFragment(cameraFragment)
                 val intent = Intent(this, UploadActivity::class.java)
                 startActivity(intent)
+                val cameraFragment = CameraFragment.newInstance()
+                openFragment(cameraFragment)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_home -> {
