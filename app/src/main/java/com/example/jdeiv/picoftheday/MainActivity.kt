@@ -16,6 +16,8 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.ActionBar
 import android.support.v7.app.AlertDialog
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.LocationServices
@@ -80,6 +82,8 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
         toolbar = supportActionBar!!
         val bottomNavigation: BottomNavigationView = findViewById(R.id.bottomNavigationView)
         bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+
+
 
     }
 
@@ -166,6 +170,27 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
         super.onStop()
         if (mGoogleApiClient!!.isConnected()) {
             mGoogleApiClient!!.disconnect()
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        // Inflating the toolbar menu
+        menuInflater.inflate(R.menu.top_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.getItemId()
+
+        if (id == R.id.settings_button){
+            // Send user to settings page
+            Toast.makeText(this, "Settings button clicked", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
+            /* The following return should not run but is necessary in order to compile */
+            return false
+        } else {
+            return super.onOptionsItemSelected(item)
         }
     }
 
