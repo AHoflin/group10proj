@@ -16,12 +16,11 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_settings)
 
         btn_logout.setOnClickListener {
+            Toast.makeText(this, "Logging out...", Toast.LENGTH_SHORT).show()
             FirebaseAuth.getInstance().signOut()
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
-
-
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         // Inflating the toolbar menu
