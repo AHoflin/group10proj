@@ -18,8 +18,11 @@ import android.provider.FontRequest
 import android.provider.MediaStore
 import android.provider.Settings
 import android.support.v4.app.ActivityCompat
+import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import android.widget.Toast
 import com.google.android.gms.location.*
 import com.google.android.gms.tasks.OnSuccessListener
@@ -44,7 +47,6 @@ class UploadActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.fragment_camera)
 
         imageButton_upload.setOnClickListener(){
@@ -61,6 +63,7 @@ class UploadActivity: AppCompatActivity() {
             uploadImageToFirebaseStorage()
 
         }
+
 
     }
 
