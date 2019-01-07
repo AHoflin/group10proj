@@ -84,7 +84,7 @@ class CameraFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (resultCode == Activity.RESULT_OK){
+        if (resultCode == Activity.RESULT_OK && requestCode != 0){
             selectedPhotoUri = image_uri
             val bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver, selectedPhotoUri)
             imageButton_upload.setImageBitmap(bitmap)
