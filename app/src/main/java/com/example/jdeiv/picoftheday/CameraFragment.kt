@@ -23,6 +23,7 @@ import kotlinx.android.synthetic.main.fragment_camera.*
 import java.io.File
 import java.util.*
 import android.view.KeyEvent.KEYCODE_MENU
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_camera.view.*
 
 
@@ -133,6 +134,13 @@ class CameraFragment : Fragment() {
 
         fetchedPosition = updatePosition()
 
+        // If user is signed in.
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        if (currentUser!=null){
+            currentUser.let {
+                val image = ImageStats(filename, 0, input, it.email.toString(), date, fetchedPosition)
+            }
+        } // Doesn't work right now, needs fix!
         val image = ImageStats(filename, 0, input, username, date, fetchedPosition)
 
         ref.setValue(image).addOnSuccessListener {
