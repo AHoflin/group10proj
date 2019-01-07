@@ -82,6 +82,8 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
         toolbar = supportActionBar!!
         val bottomNavigation: BottomNavigationView = findViewById(R.id.bottomNavigationView)
         bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        /* Setting the first page to home page. This is needed for content to load without having to press a tab. */
+        bottomNavigation.selectedItemId = R.id.navigation_home
 
     }
 
@@ -182,7 +184,6 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
 
         if (id == R.id.settings_button){
             // Send user to settings page
-            Toast.makeText(this, "Settings button clicked", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
             /* The following return should not run, but is necessary in order to compile */

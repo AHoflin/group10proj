@@ -1,12 +1,17 @@
 package com.example.jdeiv.picoftheday
 
+import android.Manifest
 import android.app.Activity
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v4.app.Fragment
+import android.support.v4.content.PermissionChecker.checkSelfPermission
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -28,16 +33,39 @@ class CameraFragment : Fragment() {
     var latitudeDouble: Double? = null
     val username = "TunaBoy1337" //change this one to be the logged in account
     var selectedPhotoUri: Uri? = null
+    private val PERMISSION_CODE = 1000
+    private val IMAGE_CAPTURE_CODE = 1001
+    var image_uri: Uri? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_camera, container, false)
-        view.imageButton_upload.setOnClickListener(){
+
+        view.btn_select_photo.setOnClickListener(){
             Log.d("UploadActivity","ImageUpload button pressed")
 
             //select image to upload
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
             startActivityForResult(intent, 0)
+        }
+
+        view.btn_take_photo.setOnClickListener {
+            // If system is Marshmallow or above, runtime permission is needed.
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                if (checkSelfPermission(activity?.baseContext!!, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED
+                    || checkSelfPermission(activity?.baseContext!!, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
+                    // Permission is not enabled
+                    val permission = arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    // Show popup to request permission.
+                    requestPermissions(permission, PERMISSION_CODE)
+                } else {
+                    // Permission granted
+                    openCamera()
+                }
+            } else {
+                // System is less than Marshmallow
+                openCamera()
+            }
         }
 
         view.upload_to_db_button.setOnClickListener{
@@ -55,13 +83,18 @@ class CameraFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        if (resultCode == Activity.RESULT_OK){
+            selectedPhotoUri = image_uri
+            val bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver, selectedPhotoUri)
+            imageButton_upload.setImageBitmap(bitmap)
+        }
+
         if(requestCode == 0 && resultCode == Activity.RESULT_OK && data != null){
             Log.d("UploadImage", "Photo was selected")
 
             selectedPhotoUri = data.data
 
             val bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver, selectedPhotoUri)
-
             imageButton_upload.setImageBitmap(bitmap)
         }
 
@@ -118,4 +151,32 @@ class CameraFragment : Fragment() {
         return location
     }
 
+    private fun openCamera(){
+        val values = ContentValues()
+        values.put(MediaStore.Images.Media.TITLE, "New Picture")
+        values.put(MediaStore.Images.Media.DESCRIPTION, "From the Camera")
+        image_uri = context?.contentResolver?.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+        // camera intent
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri)
+        cameraIntent.putExtra("aspectX", 1)
+        cameraIntent.putExtra("aspectY", 1)
+        startActivityForResult(cameraIntent, IMAGE_CAPTURE_CODE)
+
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        // Called when the user presses allow or deny from Permission Request
+        when (requestCode){
+            PERMISSION_CODE -> {
+                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    // Permission was granted
+                    openCamera()
+                } else {
+                    // Permission was denied
+                    Toast.makeText(activity, "Permission denied", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
 }
