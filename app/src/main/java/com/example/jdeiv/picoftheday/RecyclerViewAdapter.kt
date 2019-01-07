@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.google.firebase.database.*
 
 class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
 
@@ -24,6 +25,23 @@ class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>
 
     override fun getItemCount(): Int {
         return captions.size
+    }
+
+    private val polaroids: MutableList<Polaroid> = mutableListOf()
+    private fun initPolaroidList() {
+        val firebaseRef = FirebaseDatabase.getInstance().reference
+
+        val polaroidsListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                polaroids.clear()
+                dataSnapshot.children.mapNotNullTo(polaroids) { it.getValue<Polaroid>(Polaroid::class.java) }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                println("loadPost:onCancelled ${databaseError.toException()}")
+            }
+        }
+        firebaseRef.child("POTD").addListenerForSingleValueEvent(polaroidsListener)
     }
 
     private val captions = arrayOf("Chapter One",
