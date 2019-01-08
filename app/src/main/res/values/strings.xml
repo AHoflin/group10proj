@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">BottomNavigationDemo</string>
+    <string name="btn_login">Log in</string>
+    <string name="edittext_email_login">E-mail</string>
+    <string name="edittext_password_login">Password</string>
+    <string name="text_notregistered">Don\'t have an account? Click here to register</string>
+    <string name="text_gotologin">Already have an account? Click here to login</string>
+    <string name="btn_register">Register</string>
+    <string name="edittext_confirm_password">Confirm Password</string>
+    <string name="btn_logout">Log out</string>
+    <string name="btn_take_photo">Take photo</string>
+    <string name="btn_select_photo">Select photo</string>
 </resources>
