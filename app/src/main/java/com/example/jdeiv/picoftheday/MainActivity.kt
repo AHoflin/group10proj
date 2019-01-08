@@ -21,6 +21,9 @@ import android.view.MenuItem
 import android.widget.Toast
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.LocationServices
+import com.soundcloud.android.crop.Crop
+
+
 
 class MainActivity : AppCompatActivity(), com.google.android.gms.location.LocationListener {
 
@@ -42,13 +45,6 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
                 //Some of these lines can be removed
                 /*val intent = Intent(this, UploadActivity::class.java)
                 startActivity(intent)*/
-<<<<<<< HEAD
-
-                /*val intent = Intent(this, UploadActivity::class.java)
-                startActivity(intent)*/
-
-=======
->>>>>>> 82e61687666e3cfe9ac5015cde5c25d44ae535d3
                 val cameraFragment = CameraFragment.newInstance()
                 openFragment(cameraFragment)
                 return@OnNavigationItemSelectedListener true
@@ -204,5 +200,4 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
     fun getContextOfApplication(): Context? {
         return applicationContext
     }
-
 }
