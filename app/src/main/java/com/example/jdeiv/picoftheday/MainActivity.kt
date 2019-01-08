@@ -21,6 +21,9 @@ import android.view.MenuItem
 import android.widget.Toast
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.LocationServices
+//import com.soundcloud.android.crop.Crop
+
+
 
 class MainActivity : AppCompatActivity(), com.google.android.gms.location.LocationListener {
 
@@ -197,5 +200,4 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
     fun getContextOfApplication(): Context? {
         return applicationContext
     }
-
 }
