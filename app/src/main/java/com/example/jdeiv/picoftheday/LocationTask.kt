@@ -28,7 +28,6 @@ class LocationTask(private var context: Context, private var fusedLocationProvid
                 if(it != null) {
                     lng = it.longitude
                     lat = it.latitude
-                    Toast.makeText(context, lng.toString(), Toast.LENGTH_SHORT).show()
                     Log.d("LocationTask", "Pos found")
 
                 }else{

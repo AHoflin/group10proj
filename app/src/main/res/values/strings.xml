@@ -10,4 +10,6 @@
     <string name="btn_logout">Log out</string>
     <string name="btn_take_photo">Take photo</string>
     <string name="btn_select_photo">Select photo</string>
+    <string name="camera_caption_hint">Caption</string>
+    <string name="camera_upload_button_text">Upload</string>
 </resources>

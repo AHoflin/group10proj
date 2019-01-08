@@ -104,7 +104,7 @@ class CameraFragment : Fragment() {
             var result = CropImage.getActivityResult(data)
             selectedPhotoUri = result.uri
             val bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver!!, selectedPhotoUri)
-            imageButton_upload.setImageBitmap(bitmap)
+            card_image.setImageBitmap(bitmap)
         }
         if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_CAPTURE_CODE){
             Log.d("CameraFragment", "Picture taken")
@@ -153,7 +153,7 @@ class CameraFragment : Fragment() {
         val date = Calendar.getInstance().time
 
         val ref = FirebaseDatabase.getInstance().getReference("/POTD/$imgFilename")
-        val input = input_text.text.toString()
+        val input = card_text.text.toString()
 
         fetchedPosition = updatePosition()
 
@@ -173,7 +173,6 @@ class CameraFragment : Fragment() {
         val fileName = "/location.txt"
         val file = File(this.context?.dataDir.toString() + fileName)
         val coor = file.bufferedReader().readLines()
-
         val location = FetchedLocation(coor[0].toDouble(), coor[1].toDouble())
 
         return location

@@ -21,6 +21,8 @@ import android.view.MenuItem
 import android.widget.Toast
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.LocationServices
+import java.io.File
+
 //import com.soundcloud.android.crop.Crop
 
 
@@ -88,6 +90,8 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
         bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         /* Setting the first page to home page. This is needed for content to load without having to press a tab. */
         bottomNavigation.selectedItemId = R.id.navigation_home
+
+        checkIfPositionWritten()
 
     }
 
@@ -199,5 +203,16 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
 
     fun getContextOfApplication(): Context? {
         return applicationContext
+    }
+
+    private fun checkIfPositionWritten(){
+        val fileName = "/location.txt"
+        val file = File(this.dataDir.toString() + fileName)
+        val coor = file.bufferedReader().readLines()
+        val location = FetchedLocation(coor[0].toDouble(), coor[1].toDouble())
+
+        if(location == null){
+            Toast.makeText(this, "Location could not be found", Toast.LENGTH_SHORT).show()
+        }
     }
 }
