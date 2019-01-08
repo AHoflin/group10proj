@@ -47,7 +47,7 @@ class CameraFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_camera, container, false)
 
-        startDialog()
+        startDialog() // TODO: ask for permission here as well. Structure the code better!
 
         view.btn_select_photo.setOnClickListener(){
             Log.d("UploadActivity","ImageUpload button pressed")
@@ -59,22 +59,7 @@ class CameraFragment : Fragment() {
         }
 
         view.btn_take_photo.setOnClickListener {
-            // If system is Marshmallow or above, runtime permission is needed.
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-                if (checkSelfPermission(activity?.baseContext!!, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED
-                    || checkSelfPermission(activity?.baseContext!!, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
-                    // Permission is not enabled
-                    val permission = arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    // Show popup to request permission.
-                    requestPermissions(permission, PERMISSION_CODE)
-                } else {
-                    // Permission granted
-                    openCamera()
-                }
-            } else {
-                // System is less than Marshmallow
-                openCamera()
-            }
+            askForPermissionThenOpenCamera()
         }
 
         view.upload_to_db_button.setOnClickListener{
@@ -91,7 +76,7 @@ class CameraFragment : Fragment() {
         pictureDialog.setMessage("Take a photo or select one from your device?")
 
         pictureDialog.setPositiveButton("Camera"){ dialog, which ->
-            openCamera()
+            askForPermissionThenOpenCamera()
         }
 
         pictureDialog.setNegativeButton("Gallery"){ dialog, which ->
@@ -206,6 +191,25 @@ class CameraFragment : Fragment() {
         cameraIntent.putExtra("aspectY", 1)
         startActivityForResult(cameraIntent, IMAGE_CAPTURE_CODE)
 
+    }
+
+    private fun askForPermissionThenOpenCamera(){
+        // If Marshmallow or later, runtime permission is required
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            if (checkSelfPermission(activity?.baseContext!!, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED
+                || checkSelfPermission(activity?.baseContext!!, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
+                // Permission is not enabled
+                val permission = arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                // Show popup to request permission.
+                requestPermissions(permission, PERMISSION_CODE)
+            } else {
+                // Permission granted
+                openCamera()
+            }
+        } else {
+            // System is less than Marshmallow
+            openCamera()
+        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
