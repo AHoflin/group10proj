@@ -2,8 +2,12 @@ package com.example.jdeiv.picoftheday
 
 import android.Manifest
 import android.app.Activity
+import android.app.Activity.RESULT_OK
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.ContentValues
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -24,6 +28,7 @@ import java.io.File
 import java.util.*
 import android.view.KeyEvent.KEYCODE_MENU
 import com.google.firebase.auth.FirebaseAuth
+import com.soundcloud.android.crop.Crop
 import kotlinx.android.synthetic.main.fragment_camera.view.*
 
 
@@ -34,12 +39,15 @@ class CameraFragment : Fragment() {
     var latitudeDouble: Double? = null
     val username = "TunaBoy1337" //change this one to be the logged in account
     var selectedPhotoUri: Uri? = null
+    var selectedPhotoUri2: Uri? = null
     private val PERMISSION_CODE = 1000
     private val IMAGE_CAPTURE_CODE = 1001
     var image_uri: Uri? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_camera, container, false)
+
+        startDialog()
 
         view.btn_select_photo.setOnClickListener(){
             Log.d("UploadActivity","ImageUpload button pressed")
@@ -77,6 +85,25 @@ class CameraFragment : Fragment() {
         return view
     }
 
+    private fun startDialog() {
+        val pictureDialog = AlertDialog.Builder(activity)
+        pictureDialog.setTitle("Upload photo option")
+        pictureDialog.setMessage("Take a photo or select one from your device?")
+
+        pictureDialog.setPositiveButton("Camera"){ dialog, which ->
+            openCamera()
+        }
+
+        pictureDialog.setNegativeButton("Gallery"){ dialog, which ->
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            startActivityForResult(intent, 0)
+        }
+        pictureDialog.show()
+
+
+    }
+
     companion object {
         fun newInstance(): CameraFragment = CameraFragment()
     }
@@ -84,21 +111,32 @@ class CameraFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        /*
+        if (resultCode == Crop.REQUEST_CROP && resultCode == Activity.RESULT_OK) {
+            Log.d("CameraFragment", "Cropping result")
+            val bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver!!, selectedPhotoUri)
+            imageButton_upload.setImageBitmap(bitmap)
+        }
+        */
+
         if (resultCode == Activity.RESULT_OK && requestCode != 0){
+            Log.d("CameraFragment", "Picture taken")
             selectedPhotoUri = image_uri
-            val bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver, selectedPhotoUri)
+            Crop.of(image_uri, selectedPhotoUri).asSquare().start(activity)
+
+            val bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver!!, image_uri)
             imageButton_upload.setImageBitmap(bitmap)
         }
 
         if(requestCode == 0 && resultCode == Activity.RESULT_OK && data != null){
-            Log.d("UploadImage", "Photo was selected")
+            Log.d("CameraFragment", "Photo selected")
 
-            selectedPhotoUri = data.data
+            selectedPhotoUri2 = data.data
+            Crop.of(selectedPhotoUri2, selectedPhotoUri).asSquare().start(activity)
 
-            val bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver, selectedPhotoUri)
+            val bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver!!, selectedPhotoUri2)
             imageButton_upload.setImageBitmap(bitmap)
         }
-
     }
 
     private fun uploadImageToFirebaseStorage(){
@@ -136,12 +174,9 @@ class CameraFragment : Fragment() {
 
         // If user is signed in.
         val currentUser = FirebaseAuth.getInstance().currentUser
-        if (currentUser!=null){
-            currentUser.let {
-                val image = ImageStats(filename, 0, input, it.email.toString(), date, fetchedPosition)
-            }
-        } // Doesn't work right now, needs fix!
         val image = ImageStats(filename, 0, input, username, date, fetchedPosition)
+        val usermail = currentUser!!.email.toString()
+        Log.d("User at upload", "usermail: $usermail")
 
         ref.setValue(image).addOnSuccessListener {
             Toast.makeText(context, "Image uploaded!", Toast.LENGTH_SHORT).show()

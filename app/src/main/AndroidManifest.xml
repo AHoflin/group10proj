@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
             android:allowBackup="true"
@@ -30,9 +31,8 @@
         <activity android:name=".RegisterActivity"></activity>
         <activity android:name=".MainActivity"></activity>
         <activity android:name=".SettingsActivity"></activity>
+        <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
         <meta-data android:name="preloaded_fonts" android:resource="@array/preloaded_fonts"/>
-        <activity android:name=".CameraActivity"></activity>
-        <activity android:name=".SquareCameraActivity"></activity>
     </application>
 
 </manifest>
