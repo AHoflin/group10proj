@@ -21,7 +21,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.LocationServices
-import com.soundcloud.android.crop.Crop
+//import com.soundcloud.android.crop.Crop
 
 
 

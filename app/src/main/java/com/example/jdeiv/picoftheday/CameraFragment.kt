@@ -28,7 +28,9 @@ import java.io.File
 import java.util.*
 import android.view.KeyEvent.KEYCODE_MENU
 import com.google.firebase.auth.FirebaseAuth
-import com.soundcloud.android.crop.Crop
+//import com.soundcloud.android.crop.Crop
+import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.fragment_camera.view.*
 
 
@@ -42,12 +44,13 @@ class CameraFragment : Fragment() {
     var selectedPhotoUri2: Uri? = null
     private val PERMISSION_CODE = 1000
     private val IMAGE_CAPTURE_CODE = 1001
+    private val CROP_REQUEST_CODE = 1002
     var image_uri: Uri? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_camera, container, false)
 
-        startDialog() // TODO: ask for permission here as well. Structure the code better!
+        startDialog()
 
         view.btn_select_photo.setOnClickListener(){
             Log.d("UploadActivity","ImageUpload button pressed")
@@ -96,31 +99,28 @@ class CameraFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        /*
-        if (resultCode == Crop.REQUEST_CROP && resultCode == Activity.RESULT_OK) {
-            Log.d("CameraFragment", "Cropping result")
+        if (requestCode == CROP_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            Log.d("CameraFragment", "Image cropped")
+            var result = CropImage.getActivityResult(data)
+            selectedPhotoUri = result.uri
             val bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver!!, selectedPhotoUri)
             imageButton_upload.setImageBitmap(bitmap)
         }
-        */
-
-        if (resultCode == Activity.RESULT_OK && requestCode != 0){
+        if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_CAPTURE_CODE){
             Log.d("CameraFragment", "Picture taken")
-            selectedPhotoUri = image_uri
-            Crop.of(image_uri, selectedPhotoUri).asSquare().start(activity)
-
-            val bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver!!, image_uri)
-            imageButton_upload.setImageBitmap(bitmap)
+            //selectedPhotoUri = image_uri
+            //Crop.of(image_uri, selectedPhotoUri).asSquare().start(activity)
+            val intent = CropImage.activity(image_uri).setAspectRatio(1,1)
+                .getIntent(context!!)
+            startActivityForResult(intent, CROP_REQUEST_CODE)
         }
-
         if(requestCode == 0 && resultCode == Activity.RESULT_OK && data != null){
             Log.d("CameraFragment", "Photo selected")
-
             selectedPhotoUri2 = data.data
-            Crop.of(selectedPhotoUri2, selectedPhotoUri).asSquare().start(activity)
-
-            val bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver!!, selectedPhotoUri2)
-            imageButton_upload.setImageBitmap(bitmap)
+            //Crop.of(data.data, selectedPhotoUri).asSquare().start(activity)
+            val intent = CropImage.activity(data.data).setAspectRatio(1,1)
+                .getIntent(context!!)
+            startActivityForResult(intent, CROP_REQUEST_CODE)
         }
     }
 
