@@ -18,11 +18,15 @@ import android.provider.FontRequest
 import android.provider.MediaStore
 import android.provider.Settings
 import android.support.v4.app.ActivityCompat
+import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import android.widget.Toast
 import com.google.android.gms.location.*
 import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 
@@ -43,7 +47,6 @@ class UploadActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.fragment_camera)
 
         imageButton_upload.setOnClickListener(){
@@ -60,6 +63,7 @@ class UploadActivity: AppCompatActivity() {
             uploadImageToFirebaseStorage()
 
         }
+
 
     }
 
@@ -111,6 +115,13 @@ class UploadActivity: AppCompatActivity() {
 
         fetchedPosition = updatePosition()
 
+        // If user is signed in.
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        if (currentUser!=null){
+            currentUser.let {
+                val image = ImageStats(filename, 0, input, it.email.toString(), date, fetchedPosition)
+            }
+        }
         val image = ImageStats(filename, 0, input, username, date, fetchedPosition)
 
         ref.setValue(image).addOnSuccessListener {

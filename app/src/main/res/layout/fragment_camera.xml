@@ -5,41 +5,46 @@
         xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <ImageButton
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+    <ImageView
+            android:layout_width="250dp"
+            android:layout_height="250dp"
             android:layout_marginTop="8dp"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp"
             android:id="@+id/imageButton_upload"
             android:scaleType="centerCrop"
-    />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     <EditText
             android:id="@+id/input_text"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/imageButton_upload"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/upload_to_db_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="32dp"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="32dp"/>
+            android:text="Title" android:inputType="text"
+            app:layout_constraintStart_toStartOf="@+id/btn_take_photo"
+            app:layout_constraintEnd_toEndOf="@+id/btn_select_photo"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/btn_select_photo"/>
 
-    <Button android:layout_width="300dp"
-            android:layout_height="50dp"
+    <Button android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:text="Upload"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="32dp"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="32dp"
-            android:id="@+id/upload_to_db_button"/>
+            android:id="@+id/upload_to_db_button"
+            app:layout_constraintEnd_toEndOf="@+id/input_text"
+            app:layout_constraintStart_toStartOf="@+id/input_text"
+            android:layout_marginTop="16dp" app:layout_constraintTop_toBottomOf="@+id/input_text"/>
+    <Button
+            android:text="@string/btn_take_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_take_photo"
+            android:layout_marginTop="16dp" app:layout_constraintTop_toBottomOf="@+id/imageButton_upload"
+            app:layout_constraintStart_toStartOf="@+id/imageButton_upload" android:layout_marginStart="8dp"/>
+    <Button
+            android:text="@string/btn_select_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_select_photo" app:layout_constraintEnd_toEndOf="@+id/imageButton_upload"
+            android:layout_marginEnd="8dp" android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/imageButton_upload"/>
 
 </android.support.constraint.ConstraintLayout>
