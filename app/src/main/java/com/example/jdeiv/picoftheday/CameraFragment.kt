@@ -50,7 +50,11 @@ class CameraFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_camera, container, false)
 
-        startDialog()
+        //startDialog()
+        if (image_uri != null){
+            val bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver!!, image_uri)
+            card_image.setImageBitmap(bitmap)
+        }
 
         view.btn_select_photo.setOnClickListener(){
             Log.d("UploadActivity","ImageUpload button pressed")
