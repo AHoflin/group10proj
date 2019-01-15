@@ -32,6 +32,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.fragment_camera.view.*
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.view.*
 
 
 class CameraFragment : Fragment() {
@@ -78,6 +80,7 @@ class CameraFragment : Fragment() {
         view.card_imageButton.setOnClickListener(){
             startDialog()
        }
+
         return view
     }
 

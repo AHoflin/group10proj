@@ -27,7 +27,8 @@
             app:itemTextColor="@color/selector_bottom_nav_icon_color"
             app:itemIconSize="28dp"
             app:menu="@menu/navigation"
-            android:id="@+id/bottomNavigationView"/>
+            android:id="@+id/bottomNavigationView"
+    />
 
 
 </android.support.constraint.ConstraintLayout>
