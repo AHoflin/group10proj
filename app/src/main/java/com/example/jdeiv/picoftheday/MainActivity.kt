@@ -93,7 +93,6 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
         bottomNavigation.selectedItemId = R.id.navigation_home
 
         checkIfPositionWritten()
-
     }
 
     override fun onLocationChanged(location: Location?) {
