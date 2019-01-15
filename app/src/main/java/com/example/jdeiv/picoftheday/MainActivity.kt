@@ -21,12 +21,20 @@ import android.view.MenuItem
 import android.widget.Toast
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.LocationServices
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import java.io.File
+
+//import com.soundcloud.android.crop.Crop
+
+
 
 class MainActivity : AppCompatActivity(), com.google.android.gms.location.LocationListener {
 
     lateinit var toolbar: ActionBar
     private var REQUEST_LOCATION_CODE = 101
     private var mGoogleApiClient: GoogleApiClient? = null
+    private lateinit var auth: FirebaseAuth
 
     private fun openFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
@@ -42,7 +50,6 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
                 //Some of these lines can be removed
                 /*val intent = Intent(this, UploadActivity::class.java)
                 startActivity(intent)*/
-
                 val cameraFragment = CameraFragment.newInstance()
                 openFragment(cameraFragment)
                 return@OnNavigationItemSelectedListener true
@@ -63,6 +70,8 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
         false
 
     }
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,6 +95,8 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
         bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         /* Setting the first page to home page. This is needed for content to load without having to press a tab. */
         bottomNavigation.selectedItemId = R.id.navigation_home
+
+        checkIfPositionWritten()
 
     }
 
@@ -166,6 +177,16 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
     override fun onStart() {
         super.onStart()
         mGoogleApiClient?.connect()
+
+        /* Check if user is logged in */
+        auth = FirebaseAuth.getInstance()
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+            /* Send the user back to login screen. */
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        } // Else, it's fine. User is logged in.
     }
 
     override fun onStop() {
@@ -199,4 +220,22 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
         return applicationContext
     }
 
+    private fun checkIfPositionWritten(){
+        val fileName = "/location.txt"
+        val file = File(this.dataDir.toString() + fileName)
+        val coor = file.bufferedReader().readLines()
+        val location = FetchedLocation(coor[0].toDouble(), coor[1].toDouble())
+
+        if(location == null){
+            //Toast.makeText(this, "Location could not be found", Toast.LENGTH_SHORT).show()
+            AlertDialog.Builder(this)
+                .setTitle("Location not found")
+                .setMessage("This app needs your Location to function properly, please accept to use location functionality")
+                .setPositiveButton("OK", { dialog, which ->
+                    ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_LOCATION_CODE)
+                })
+                .create()
+                .show()
+        }
+    }
 }
