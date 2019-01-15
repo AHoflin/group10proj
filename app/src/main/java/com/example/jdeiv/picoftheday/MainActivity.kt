@@ -13,6 +13,7 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.support.v4.view.ViewPager
 import android.support.v7.app.ActionBar
 import android.support.v7.app.AlertDialog
 import android.util.Log
@@ -23,14 +24,16 @@ import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.LocationServices
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
-
+import java.util.HashMap
 //import com.soundcloud.android.crop.Crop
 
 
 
 class MainActivity : AppCompatActivity(), com.google.android.gms.location.LocationListener {
 
+    private var mViewpager: NonSwipeableViewPager? = null
     lateinit var toolbar: ActionBar
     private var REQUEST_LOCATION_CODE = 101
     private var mGoogleApiClient: GoogleApiClient? = null
@@ -38,7 +41,7 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
 
     private fun openFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragmentContainerFrameLayout, fragment)
+        //transaction.replace(R.id.fragmentContainerFrameLayout, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
     }
@@ -50,20 +53,23 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
                 //Some of these lines can be removed
                 /*val intent = Intent(this, UploadActivity::class.java)
                 startActivity(intent)*/
-                val cameraFragment = CameraFragment.newInstance()
-                openFragment(cameraFragment)
+                /*val cameraFragment = CameraFragment.newInstance()
+                openFragment(cameraFragment)*/
+                mViewpager?.setCurrentItem(0)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_home -> {
                 toolbar.title = "Home"
-                val homeFragment = HomeFragment.newInstance()
-                openFragment(homeFragment)
+                /*val homeFragment = HomeFragment.newInstance()
+                openFragment(homeFragment)*/
+                mViewpager?.setCurrentItem(1)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_picOfTheDay -> {
-                toolbar.title = "Pic of the Day"
+                /*toolbar.title = "Pic of the Day"
                 val picofthedayFragment = PicofthedayFragment.newInstance()
-                openFragment(picofthedayFragment)
+                openFragment(picofthedayFragment)*/
+                mViewpager?.setCurrentItem(2)
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -90,14 +96,24 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
             LocationTask(this, LocationServices.getFusedLocationProviderClient(this)).execute()
         }
 
+        /* Testing another fragment solution */
+        val fragmentHashMap = HashMap<Int, Fragment>().apply {
+            put(0, CameraFragment.newInstance())
+            put(1, HomeFragment.newInstance())
+            put(2, PicofthedayFragment.newInstance())
+        }
+        mViewpager = view_pager
+        this.mViewpager?.setAdapter(ViewPagerAdapter(supportFragmentManager, fragmentHashMap))
+        mViewpager?.setCurrentItem(1)
+        mViewpager?.offscreenPageLimit = 2
+
+
         toolbar = supportActionBar!!
         val bottomNavigation: BottomNavigationView = findViewById(R.id.bottomNavigationView)
         bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         /* Setting the first page to home page. This is needed for content to load without having to press a tab. */
         bottomNavigation.selectedItemId = R.id.navigation_home
-
         checkIfPositionWritten()
-
     }
 
     override fun onLocationChanged(location: Location?) {

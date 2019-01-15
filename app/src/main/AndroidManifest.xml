@@ -24,10 +24,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".UploadActivity">
-
-        </activity>
-
         <activity android:name=".RegisterActivity"></activity>
         <activity android:name=".MainActivity"></activity>
         <activity android:name=".SettingsActivity"></activity>

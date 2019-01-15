@@ -51,6 +51,12 @@ class CameraFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_camera, container, false)
 
         //startDialog()
+        if (savedInstanceState != null){
+            Log.d("CameraFragment", "savedInstanceState != null")
+            image_uri = savedInstanceState.getParcelable("imageUri")
+            card_text.setText(savedInstanceState?.getString("caption"))
+        }
+
         if (image_uri != null){
             val bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver!!, image_uri)
             card_imageButton.setImageBitmap(bitmap)
@@ -232,5 +238,23 @@ class CameraFragment : Fragment() {
                 }
             }
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        /* if ( card_text.text.toString() != null ) { outState.putString("caption", card_text.text.toString()) } */
+        if (image_uri != null ) { outState.putParcelable("imageUri", image_uri!!) }
+        Log.d("CameraFragment", "Saving instance state")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("CameraFragment", "Fragment destroyed (destroyview)")
+    }
+
+    /* You should not override this */
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.d("CameraFragment", "Fragment destroyed (destroyview)")
     }
 }
