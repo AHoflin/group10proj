@@ -74,6 +74,10 @@ class CameraFragment : Fragment() {
             uploadImageToFirebaseStorage()
 
         }
+
+        view.card_imageButton.setOnClickListener(){
+            startDialog()
+       }
         return view
     }
 
@@ -108,7 +112,7 @@ class CameraFragment : Fragment() {
             var result = CropImage.getActivityResult(data)
             selectedPhotoUri = result.uri
             val bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver!!, selectedPhotoUri)
-            card_image.setImageBitmap(bitmap)
+            card_imageButton.setImageBitmap(bitmap)
         }
         if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_CAPTURE_CODE){
             Log.d("CameraFragment", "Picture taken")
