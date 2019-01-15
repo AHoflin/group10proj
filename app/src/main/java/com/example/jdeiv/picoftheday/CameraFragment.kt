@@ -53,7 +53,7 @@ class CameraFragment : Fragment() {
         //startDialog()
         if (image_uri != null){
             val bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver!!, image_uri)
-            card_image.setImageBitmap(bitmap)
+            card_imageButton.setImageBitmap(bitmap)
         }
 
         view.btn_select_photo.setOnClickListener(){
