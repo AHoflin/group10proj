@@ -50,8 +50,6 @@ class CameraFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_camera, container, false)
 
-        startDialog()
-
         view.btn_select_photo.setOnClickListener(){
             Log.d("UploadActivity","ImageUpload button pressed")
 
@@ -70,6 +68,10 @@ class CameraFragment : Fragment() {
             uploadImageToFirebaseStorage()
 
         }
+
+        view.card_imageButton.setOnClickListener(){
+            startDialog()
+       }
         return view
     }
 
@@ -104,7 +106,7 @@ class CameraFragment : Fragment() {
             var result = CropImage.getActivityResult(data)
             selectedPhotoUri = result.uri
             val bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver!!, selectedPhotoUri)
-            card_image.setImageBitmap(bitmap)
+            card_imageButton.setImageBitmap(bitmap)
         }
         if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_CAPTURE_CODE){
             Log.d("CameraFragment", "Picture taken")

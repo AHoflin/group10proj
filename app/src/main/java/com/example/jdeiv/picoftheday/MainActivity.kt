@@ -212,7 +212,15 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
         val location = FetchedLocation(coor[0].toDouble(), coor[1].toDouble())
 
         if(location == null){
-            Toast.makeText(this, "Location could not be found", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "Location could not be found", Toast.LENGTH_SHORT).show()
+            AlertDialog.Builder(this)
+                .setTitle("Location not found")
+                .setMessage("This app needs your Location to function properly, please accept to use location functionality")
+                .setPositiveButton("OK", { dialog, which ->
+                    ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_LOCATION_CODE)
+                })
+                .create()
+                .show()
         }
     }
 }
