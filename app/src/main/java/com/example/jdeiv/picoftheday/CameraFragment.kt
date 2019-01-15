@@ -176,8 +176,8 @@ class CameraFragment : Fragment() {
 
         // If user is signed in.
         val currentUser = FirebaseAuth.getInstance().currentUser
-        val image = ImageStats(filename, 0, input, username, date, fetchedPosition)
         val usermail = currentUser!!.email.toString()
+        val image = ImageStats(filename, 0, input, usermail, date, fetchedPosition)
         Log.d("User at upload", "usermail: $usermail")
 
         ref.setValue(image).addOnSuccessListener {
