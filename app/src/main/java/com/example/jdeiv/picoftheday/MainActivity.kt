@@ -85,6 +85,8 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
 
         buildGoogleApiClient()
 
+        createLocationFile()
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             //Location Permission already granted
             checkLocationPermission()
@@ -114,6 +116,11 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
         /* Setting the first page to home page. This is needed for content to load without having to press a tab. */
         bottomNavigation.selectedItemId = R.id.navigation_home
         checkIfPositionWritten()
+    }
+
+    private fun createLocationFile(){
+        val fileName = "/location.txt"
+        val file = File(this.dataDir.toString() + fileName)
     }
 
     override fun onLocationChanged(location: Location?) {
