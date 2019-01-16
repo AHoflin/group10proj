@@ -79,13 +79,21 @@ class CameraFragment : Fragment() {
 
         view.upload_to_db_button.setOnClickListener{
 
-            uploadImageToFirebaseStorage()
+            val positionExist = checkPosition()
+            
+            //Checks if position exist. Uploading without position will cause a crash
+            if(positionExist){
+                uploadImageToFirebaseStorage()
+            } else{
+                Toast.makeText(context, "No location was found", Toast.LENGTH_SHORT).show()
+            }
+
 
         }
 
         view.card_imageButton.setOnClickListener(){
             startDialog()
-       }
+        }
 
         return view
     }
@@ -183,6 +191,19 @@ class CameraFragment : Fragment() {
         ref.setValue(image).addOnSuccessListener {
             Toast.makeText(context, "Image uploaded!", Toast.LENGTH_SHORT).show()
         }
+
+    }
+
+    private fun checkPosition() : Boolean{
+
+        val fileName = "/location.txt"
+        val file = File(this.context?.dataDir.toString() + fileName)
+        val coor = file.bufferedReader().readLines()
+
+        if (coor.isEmpty()){
+            return false
+        }
+        return true
 
     }
 
