@@ -22,4 +22,8 @@
 
     <string name="camera_caption_hint">Caption</string>
     <string name="camera_upload_button_text">Upload</string>
+    <string name="btn_take_photo">Camera</string>
+    <string name="btn_select_photo">Gallery</string>
+    <string name="camera_caption_hint">Enter caption</string>
+    <string name="camera_upload_button_text">Upload</string>
 </resources>

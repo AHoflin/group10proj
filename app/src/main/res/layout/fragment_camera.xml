@@ -21,8 +21,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-            <ImageView
-                    android:id="@+id/card_image"
+            <ImageButton
+                    android:id="@+id/card_imageButton"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_marginLeft="16dp"
@@ -44,18 +44,21 @@
                     android:id="@+id/card_text"
                     android:maxWidth="250dp"
                     android:maxHeight="67dp"
-                    android:layout_width="258dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="208dp"
+                    android:layout_height="91dp"
                     android:hint="Caption"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="24dp"
                     android:textStyle="bold"
                     android:textSize="25sp"
                     android:textAlignment="textStart"
+                    android:maxLength="40"
+                    android:cursorVisible="false"
+                    android:background="@null"
 
                     app:layout_constraintStart_toStartOf="parent"
                     android:fontFamily="@font/caveat_bold"
                     android:layout_marginBottom="16dp" app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/card_image"/>
+                    app:layout_constraintTop_toBottomOf="@+id/card_imageButton"/>
 
 
         </android.support.constraint.ConstraintLayout>
