@@ -271,7 +271,7 @@ class PolaroidDataSource(private val compositeDisposable: CompositeDisposable, p
         retryCompletable = if (action == null) null else Completable.fromAction(action)
     }
 
-    private fun getLocationDistance(userLocation: FetchedLocation, polaroidLon: Double, polaroidLat: Double): Int{
+    private fun checkLocationDistance(userLocation: FetchedLocation, polaroidLon: Double, polaroidLat: Double): Boolean{
         val userLon = userLocation.longitude
         val userLat = userLocation.latitude
 
@@ -287,8 +287,23 @@ class PolaroidDataSource(private val compositeDisposable: CompositeDisposable, p
 
             distance = userLoc.distanceTo(picLoc).toInt()
         }
-        return distance
+        if(distance < 50000){
+            return true
+        }
+        return false
     }
+
+    fun checkPolarodExists(polaroidKey: String?): Boolean {
+        for (curPolaroid in polaroids){
+            val curKey = curPolaroid.key
+            if (curKey == polaroidKey)
+            {
+                return true
+            }
+        }
+        return false
+    }
+
     override fun loadInitial(params: LoadInitialParams<String>, callback: LoadInitialCallback<Polaroid>) {
         firebaseRef.orderByValue().limitToFirst(params.requestedLoadSize)
 
@@ -296,24 +311,27 @@ class PolaroidDataSource(private val compositeDisposable: CompositeDisposable, p
         val polaroidsListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 polaroids.clear()
+                val curPolaroids = polaroids
                 for (messageSnapshot in dataSnapshot.children) {
-                    val lon = messageSnapshot.child("position/longitude").value as Double
-                    val lat = messageSnapshot.child("position/latitude").value as Double
+                    val lon = messageSnapshot.child("postition/longitude").value as Double
+                    val lat = messageSnapshot.child("postition/latitude").value as Double
                     val polaroidKey = messageSnapshot.key
 
-                    // Check if the location of the polaroid is in the accepted distance
-                    if(getLocationDistance(location ,lon!!, lat!!) < 50000) {
-                        Log.d("TimeAgo", getLocationDistance(location ,lon!!, lat!!).toString())
+                    if(!(checkPolarodExists(polaroidKey))){
 
-                        val captionText = messageSnapshot.child("caption").value as String?
-                        val user = messageSnapshot.child("user").value as String?
-                        val likes = messageSnapshot.child("hearts").value as Long?
-                        val uploaded = messageSnapshot.child("uploadDate/time").value as Long?
-                        val imgSrc = messageSnapshot.child("filename").value as String?
-                        Log.d("TimeAgo", Date(uploaded!!).toString())
+                        // Check if the location of the polaroid is in the accepted distance
+                        if(checkLocationDistance(location, lon!!, lat!!)) {
 
-                        val polaroid = Polaroid(polaroidKey, imgSrc, captionText,likes,FetchedLocation(lon,lat),user, uploaded)
-                        polaroids.add(polaroid)
+                            val captionText = messageSnapshot.child("caption").value as String?
+                            val user = messageSnapshot.child("user").value as String?
+                            val likes = messageSnapshot.child("hearts").value as Long?
+                            val uploaded = messageSnapshot.child("uploadDate/time").value as Long?
+                            val imgSrc = messageSnapshot.child("filename").value as String?
+                            Log.d("TimeAgo", Date(uploaded!!).toString())
+
+                            val polaroid = Polaroid(polaroidKey, imgSrc, captionText,likes,FetchedLocation(lon,lat),user, uploaded)
+                            polaroids.add(polaroid)
+                        }
                     }
                     lastKnownKey = polaroidKey
                 }
@@ -341,23 +359,26 @@ class PolaroidDataSource(private val compositeDisposable: CompositeDisposable, p
                 polaroids.clear()
                 for (messageSnapshot in dataSnapshot.children) {
 
-                    val lon = messageSnapshot.child("position/longitude").value as Double?
-                    val lat = messageSnapshot.child("position/latitude").value as Double?
+                    val lon = messageSnapshot.child("postition/longitude").value as Double?
+                    val lat = messageSnapshot.child("postition/latitude").value as Double?
                     val polaroidKey = messageSnapshot.key
 
-                    // Check if the location of the polaroid is in the accepted distance
-                    if(getLocationDistance(location, lon!!, lat!!) < 50000) {
-                        Log.d("TimeAgoLoadAfter", getLocationDistance(location ,lon!!, lat!!).toString())
+                    // Check if the polaroid has already been loaded
+                    if(!(checkPolarodExists(polaroidKey))){
 
-                        val captionText = messageSnapshot.child("caption").value as String?
-                        val user = messageSnapshot.child("user").value as String?
-                        val likes = messageSnapshot.child("hearts").value as Long?
-                        val uploaded = messageSnapshot.child("uploadDate/time").value as Long?
-                        val imgSrc = messageSnapshot.child("filename").value as String?
-                        Log.d("TimeAgo", Date(uploaded!!).toString())
+                        // Check if the location of the polaroid is in the accepted distance
+                        if(checkLocationDistance(location, lon!!, lat!!)) {
 
-                        val polaroid = Polaroid(polaroidKey, imgSrc, captionText,likes,FetchedLocation(lon,lat),user, uploaded)
-                        polaroids.add(polaroid)
+                            val captionText = messageSnapshot.child("caption").value as String?
+                            val user = messageSnapshot.child("user").value as String?
+                            val likes = messageSnapshot.child("hearts").value as Long?
+                            val uploaded = messageSnapshot.child("uploadDate/time").value as Long?
+                            val imgSrc = messageSnapshot.child("filename").value as String?
+                            Log.d("TimeAgo", Date(uploaded!!).toString())
+
+                            val polaroid = Polaroid(polaroidKey, imgSrc, captionText,likes,FetchedLocation(lon,lat),user, uploaded)
+                            polaroids.add(polaroid)
+                        }
                     }
                     lastKnownKey = polaroidKey
                 }
