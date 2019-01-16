@@ -27,6 +27,7 @@ import kotlinx.android.synthetic.main.fragment_camera.*
 import java.io.File
 import java.util.*
 import android.view.KeyEvent.KEYCODE_MENU
+import android.view.Menu
 import com.google.firebase.auth.FirebaseAuth
 //import com.soundcloud.android.crop.Crop
 import com.theartofdev.edmodo.cropper.CropImage
@@ -198,9 +199,8 @@ class CameraFragment : Fragment() {
 
         val fileName = "/location.txt"
         val file = File(this.context?.dataDir.toString() + fileName)
-        val coor = file.bufferedReader().readLines()
-
-        if (coor.isEmpty()){
+        if(!file.exists()){
+            Toast.makeText(context, "Position not found", Toast.LENGTH_SHORT).show()
             return false
         }
         return true

@@ -1,5 +1,8 @@
 package com.example.jdeiv.picoftheday
 
+import android.Manifest
+import android.app.Activity
+import android.app.PendingIntent.getActivity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
@@ -7,17 +10,20 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.AsyncTask
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.widget.Toast
 import com.google.android.gms.location.FusedLocationProviderClient
 import java.io.File
 
 
-class LocationTask(private var context: Context, private var fusedLocationProviderClient: FusedLocationProviderClient): AsyncTask<Any, Any, Any>() {
+class LocationTask(private var context: Context, private var fusedLocationProviderClient: FusedLocationProviderClient, private var activity : Activity): AsyncTask<Any, Any, Any>() {
     private var lng : Double? = null
     private var lat : Double? = null
     lateinit var locationManager: LocationManager
+    private var REQUEST_LOCATION_CODE = 101
 
     override fun onPreExecute() {
         super.onPreExecute()
@@ -74,6 +80,24 @@ class LocationTask(private var context: Context, private var fusedLocationProvid
         val fileName = "/location.txt"
         val file = File(context.dataDir.toString() + fileName)
         file.bufferedWriter().use { out -> out.write(lng.toString()+ "\n" + lat.toString()) }
+
+        checkIfPositionWritten()
+    }
+
+    private fun checkIfPositionWritten(){
+        val fileName = "/location.txt"
+        val file = File(context.dataDir.toString() + fileName)
+        if(!file.exists()){
+            //Toast.makeText(this, "Location could not be found", Toast.LENGTH_SHORT).show()
+            AlertDialog.Builder(context)
+                .setTitle("Location not found")
+                .setMessage("This app needs your Location to function properly, please enable location services")
+                .setPositiveButton("OK", { dialog, which ->
+                    ActivityCompat.requestPermissions(  activity , arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_LOCATION_CODE)
+                })
+                .create()
+                .show()
+        }
     }
 }
 

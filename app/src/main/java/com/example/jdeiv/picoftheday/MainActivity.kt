@@ -1,6 +1,7 @@
 package com.example.jdeiv.picoftheday
 
 import android.Manifest
+import android.content.ClipData
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -19,6 +20,7 @@ import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
 import android.widget.Toast
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.LocationServices
@@ -38,6 +40,7 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
     private var REQUEST_LOCATION_CODE = 101
     private var mGoogleApiClient: GoogleApiClient? = null
     private lateinit var auth: FirebaseAuth
+    var menuToolbar : Menu? = null
 
     private fun openFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
@@ -49,20 +52,27 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when(item.itemId) {
             R.id.navigation_camera -> {
-                toolbar.title = "Camera"
+                //toolbar.title = "Camera"
                 //Some of these lines can be removed
                 /*val intent = Intent(this, UploadActivity::class.java)
                 startActivity(intent)*/
                 /*val cameraFragment = CameraFragment.newInstance()
                 openFragment(cameraFragment)*/
                 mViewpager?.setCurrentItem(0)
+                val checkmark = menuToolbar?.findItem(R.id.upload_check)
+                checkmark?.isVisible = true
+
+                //PASS checkmark TO THE OTHER FRAGMENT SO THAT WE CAN PUT A LISTENER TO IT
+
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_home -> {
-                toolbar.title = "Home"
+                //toolbar.title = "Home"
                 /*val homeFragment = HomeFragment.newInstance()
                 openFragment(homeFragment)*/
                 mViewpager?.setCurrentItem(1)
+                val checkmark = menuToolbar?.findItem(R.id.upload_check)
+                checkmark?.isVisible = false
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_picOfTheDay -> {
@@ -70,6 +80,8 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
                 val picofthedayFragment = PicofthedayFragment.newInstance()
                 openFragment(picofthedayFragment)*/
                 mViewpager?.setCurrentItem(2)
+                val checkmark = menuToolbar?.findItem(R.id.upload_check)
+                checkmark?.isVisible = false
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -93,7 +105,7 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
         if (!checkGPSEnabled()) {
         }else {
             Log.d("hejhej", "1")
-            LocationTask(this, LocationServices.getFusedLocationProviderClient(this)).execute()
+            LocationTask(this, LocationServices.getFusedLocationProviderClient(this),this).execute()
         }
 
         /* Testing another fragment solution */
@@ -113,7 +125,11 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
         bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         /* Setting the first page to home page. This is needed for content to load without having to press a tab. */
         bottomNavigation.selectedItemId = R.id.navigation_home
-        checkIfPositionWritten()
+
+        getSupportActionBar()?.setDisplayShowHomeEnabled(true)
+        getSupportActionBar()?.setIcon(R.mipmap.ic_pic_of_the_day_logo)
+        getSupportActionBar()?.setDisplayShowTitleEnabled(false)
+
     }
 
     override fun onLocationChanged(location: Location?) {
@@ -215,6 +231,9 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         // Inflating the toolbar menu
         menuInflater.inflate(R.menu.top_menu_main, menu)
+        val checkmark = menu?.findItem(R.id.upload_check)
+        checkmark?.isVisible = false
+        menuToolbar = menu
         return true
     }
 
@@ -232,26 +251,4 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
         }
     }
 
-    fun getContextOfApplication(): Context? {
-        return applicationContext
-    }
-
-    private fun checkIfPositionWritten(){
-        val fileName = "/location.txt"
-        val file = File(this.dataDir.toString() + fileName)
-        val coor = file.bufferedReader().readLines()
-        val location = FetchedLocation(coor[0].toDouble(), coor[1].toDouble())
-
-        if(location == null){
-            //Toast.makeText(this, "Location could not be found", Toast.LENGTH_SHORT).show()
-            AlertDialog.Builder(this)
-                .setTitle("Location not found")
-                .setMessage("This app needs your Location to function properly, please accept to use location functionality")
-                .setPositiveButton("OK", { dialog, which ->
-                    ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_LOCATION_CODE)
-                })
-                .create()
-                .show()
-        }
-    }
 }

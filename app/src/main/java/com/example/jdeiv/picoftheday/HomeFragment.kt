@@ -294,7 +294,7 @@ class PolaroidDataSource(private val compositeDisposable: CompositeDisposable)
                     val lon = messageSnapshot.child("position/longitude").value as Double?
                     val lat = messageSnapshot.child("position/latitude").value as Double?
                     val imgSrc = messageSnapshot.child("filename").value as String?
-                    Log.d("TimeAgo", Date(uploaded!!).toString())
+                    //Log.d("TimeAgo", Date(uploaded!!).toString())
 
                     val polaroid = Polaroid(polaroidKey, imgSrc, captionText,likes,FetchedLocation(lon,lat),user, uploaded)
                     polaroids.add(polaroid)
