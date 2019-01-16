@@ -23,6 +23,7 @@ class LoginActivity : AppCompatActivity() {
             // Send user to MainActivity
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
         btn_register.setOnClickListener {
@@ -40,6 +41,7 @@ class LoginActivity : AppCompatActivity() {
                         // Send user to MainActivity
                         val intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
+                        finish()
                     } else {
                         Log.w("LoginActivity", "signInWithEmail:failure", it.exception)
                         Toast.makeText(baseContext,"Authentication failed", Toast.LENGTH_SHORT).show()

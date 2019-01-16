@@ -32,6 +32,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.fragment_camera.view.*
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.view.*
 
 
 class CameraFragment : Fragment() {
@@ -51,6 +53,12 @@ class CameraFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_camera, container, false)
 
         //startDialog()
+        if (savedInstanceState != null){
+            Log.d("CameraFragment", "savedInstanceState != null")
+            image_uri = savedInstanceState.getParcelable("imageUri")
+            card_text.setText(savedInstanceState?.getString("caption"))
+        }
+
         if (image_uri != null){
             val bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver!!, image_uri)
             card_imageButton.setImageBitmap(bitmap)
@@ -71,13 +79,22 @@ class CameraFragment : Fragment() {
 
         view.upload_to_db_button.setOnClickListener{
 
-            uploadImageToFirebaseStorage()
+            val positionExist = checkPosition()
+            
+            //Checks if position exist. Uploading without position will cause a crash
+            if(positionExist){
+                uploadImageToFirebaseStorage()
+            } else{
+                Toast.makeText(context, "No location was found", Toast.LENGTH_SHORT).show()
+            }
+
 
         }
 
         view.card_imageButton.setOnClickListener(){
             startDialog()
-       }
+        }
+
         return view
     }
 
@@ -167,13 +184,26 @@ class CameraFragment : Fragment() {
 
         // If user is signed in.
         val currentUser = FirebaseAuth.getInstance().currentUser
-        val image = ImageStats(filename, 0, input, username, date, fetchedPosition)
         val usermail = currentUser!!.email.toString()
+        val image = ImageStats(filename, 0, input, usermail, date, fetchedPosition)
         Log.d("User at upload", "usermail: $usermail")
 
         ref.setValue(image).addOnSuccessListener {
             Toast.makeText(context, "Image uploaded!", Toast.LENGTH_SHORT).show()
         }
+
+    }
+
+    private fun checkPosition() : Boolean{
+
+        val fileName = "/location.txt"
+        val file = File(this.context?.dataDir.toString() + fileName)
+        val coor = file.bufferedReader().readLines()
+
+        if (coor.isEmpty()){
+            return false
+        }
+        return true
 
     }
 
@@ -232,5 +262,23 @@ class CameraFragment : Fragment() {
                 }
             }
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        /* if ( card_text.text.toString() != null ) { outState.putString("caption", card_text.text.toString()) } */
+        if (image_uri != null ) { outState.putParcelable("imageUri", image_uri!!) }
+        Log.d("CameraFragment", "Saving instance state")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("CameraFragment", "Fragment destroyed (destroyview)")
+    }
+
+    /* You should not override this */
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.d("CameraFragment", "Fragment destroyed (destroyview)")
     }
 }
