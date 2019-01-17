@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:id="@+id/navigation_camera"
+            android:icon="@drawable/ic_camera_light"
+            android:title="Camera"
+    />
+
+    <item
+            android:id="@+id/navigation_home"
+            android:icon="@drawable/ic_home_light"
+            android:title="Home"
+    />
+    <item
+            android:id="@+id/navigation_picOfTheDay"
+            android:icon="@drawable/ic_picoftheday"
+            android:title="Pic of the day"
+    />
+
+</menu>
