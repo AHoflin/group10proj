@@ -25,8 +25,6 @@ class PicOfTheDayDataSource(private val compositeDisposable: CompositeDisposable
     var state: MutableLiveData<State> = MutableLiveData()
     val polaroids: MutableList<Polaroid> = mutableListOf()
     val firebaseRef = FirebaseDatabase.getInstance().getReference("POTD/posts")
-    var lastKnownKey: String? = ""
-    var firstKnownKey: String? = null
 
     private var retryCompletable: Completable? = null
 

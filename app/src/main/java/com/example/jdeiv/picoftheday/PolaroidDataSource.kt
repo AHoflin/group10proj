@@ -3,7 +3,9 @@ package com.example.jdeiv.picoftheday
 import android.arch.lifecycle.MutableLiveData
 import android.arch.paging.ItemKeyedDataSource
 import android.location.Location
+import android.renderscript.Sampler
 import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -76,6 +78,35 @@ class PolaroidDataSource(private val compositeDisposable: CompositeDisposable, p
 //        }
 //        return false
 //    }
+
+    fun deleteLatestPicture(){
+        val firebaseRef = FirebaseDatabase.getInstance().getReference("POTD/posts")
+        val userEmail = FirebaseAuth.getInstance().currentUser?.email
+        val query = firebaseRef.orderByChild("user").equalTo(userEmail)
+        val listener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var latestPostTimeStamp: String? = null
+                var latestPostKey: String? = null
+                for (messageSnapshot in dataSnapshot.children) {
+                    val timeStamp = messageSnapshot.child("uploadedTime").value as String
+                    if (latestPostTimeStamp == null){
+                        latestPostTimeStamp = timeStamp
+                        latestPostKey = messageSnapshot.key.toString()
+                    } else if (latestPostTimeStamp < timeStamp) {
+                        latestPostTimeStamp = timeStamp
+                        latestPostKey = messageSnapshot.key.toString()
+                    }
+                }
+                if (latestPostKey != null) {
+                    firebaseRef.child(latestPostKey).setValue(null)
+                }
+            }
+            override fun onCancelled(databaseError: DatabaseError) {
+                println("loadPost:onCancelled ${databaseError.toException()}")
+            }
+        }
+        query.addListenerForSingleValueEvent(listener)
+    }
 
     override fun loadInitial(params: LoadInitialParams<String>, callback: LoadInitialCallback<Polaroid>) {
         Log.d("TimeAgoLocationDistanceFunc", "In LoadInitial. Load size: " + params.requestedLoadSize.toString()

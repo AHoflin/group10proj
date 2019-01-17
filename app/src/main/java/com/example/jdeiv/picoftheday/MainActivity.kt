@@ -72,6 +72,7 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
                 //toolbar.title = "Home"
                 /*val homeFragment = HomeFragment.newInstance()
                 openFragment(homeFragment)*/
+
                 mViewpager?.setCurrentItem(1)
                 val checkmark = menuToolbar?.findItem(R.id.upload_check)
                 checkmark?.isVisible = false
