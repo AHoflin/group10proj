@@ -79,7 +79,13 @@ class CameraFragment : Fragment() {
         }
 
         view.card_imageButton.setOnClickListener(){
-            startDialog()
+            if (selectedPhotoUri2 == null){
+                startDialog()
+            } else {
+                val intent = CropImage.activity(selectedPhotoUri2).setAspectRatio(1,1)
+                    .getIntent(context!!)
+                startActivityForResult(intent, CROP_REQUEST_CODE)
+            }
         }
 
         return view
@@ -149,10 +155,14 @@ class CameraFragment : Fragment() {
             val bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver!!, selectedPhotoUri)
             card_imageButton.setImageBitmap(bitmap)
         }
+        if (requestCode == CROP_REQUEST_CODE && resultCode == Activity.RESULT_CANCELED) {
+            selectedPhotoUri2 = null
+        }
         if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_CAPTURE_CODE){
             Log.d("CameraFragment", "Picture taken")
             //selectedPhotoUri = image_uri
             //Crop.of(image_uri, selectedPhotoUri).asSquare().start(activity)
+            selectedPhotoUri2 = image_uri
             val intent = CropImage.activity(image_uri).setAspectRatio(1,1)
                 .getIntent(context!!)
             startActivityForResult(intent, CROP_REQUEST_CODE)
@@ -213,6 +223,7 @@ class CameraFragment : Fragment() {
             card_imageButton.setImageBitmap(null)
             card_text.text = null
             selectedPhotoUri = null
+            selectedPhotoUri2 = null
             checkmark.isEnabled = true
         }
 
