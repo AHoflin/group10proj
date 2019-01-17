@@ -51,6 +51,16 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="@+id/btn_register"
             app:layout_constraintEnd_toEndOf="@+id/btn_register" android:id="@+id/text_notregistered"
-            android:layout_marginTop="16dp" app:layout_constraintTop_toBottomOf="@+id/btn_register"
+            android:layout_marginTop="24dp" app:layout_constraintTop_toBottomOf="@+id/btn_register"
             android:textAlignment="center" android:textStyle="bold|italic" android:textAllCaps="false"/>
+    <TextView
+            android:text="@string/text_forgot_pw"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_forgot_pw"
+            android:textAlignment="center" android:textStyle="bold|italic" android:textAllCaps="false"
+            android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@+id/text_notregistered"
+            app:layout_constraintStart_toStartOf="@+id/text_notregistered"
+            app:layout_constraintEnd_toEndOf="@+id/text_notregistered"/>
 </android.support.constraint.ConstraintLayout>

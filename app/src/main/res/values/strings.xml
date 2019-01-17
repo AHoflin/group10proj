@@ -20,6 +20,7 @@
     <string name="camera_upload_button_text">Upload</string>
     <string name="btn_take_photo">Camera</string>
     <string name="btn_select_photo">Gallery</string>
+    <string name="text_forgot_pw">Forgot password?</string>
 
     <string name="navigation_publish">Publish</string>
     <string name="home_feed">Home</string>
