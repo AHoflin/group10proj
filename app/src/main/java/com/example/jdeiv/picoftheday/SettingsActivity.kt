@@ -36,6 +36,7 @@ class SettingsActivity : AppCompatActivity() {
             // Send user back to MainActivity
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
+            finish()
             /* The following return should not run, but is necessary in order to compile */
             return false
         } else {
