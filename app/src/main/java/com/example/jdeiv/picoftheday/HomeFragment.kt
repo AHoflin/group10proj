@@ -1,5 +1,6 @@
 package com.example.jdeiv.picoftheday
 
+import android.app.AlertDialog
 import android.arch.lifecycle.*
 import android.arch.lifecycle.Observer
 import android.arch.paging.*
@@ -155,6 +156,7 @@ enum class LikeStatus {
 class PolaroidViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private var lastClickTime: Long = 0// For double taps on the polaroid image
     private var DOUBLE_CLICK_INTERVAL: Long = 200 //ms
+    private var context = view.context
 
     // Function that checks the database if the user liked the post already and then sets
     // the correct imageresource on the itemView.favorite image
@@ -225,14 +227,56 @@ class PolaroidViewHolder(view: View) : RecyclerView.ViewHolder(view) {
                timeAgoString = timeAgoSeconds.toString() + " " + itemView.context.getString(R.string.seconds) + " " + itemView.context.getString(R.string.ago)
             }
 
+
+
             itemView.moreButton.setOnClickListener{
-                fun sendReport(polaroidKey: String){
-                    val reportsRef = FirebaseDatabase.getInstance().getReference("POTD/reportedPost/")
-                    reportsRef.child(polaroidKey).setValue("not handled")
+                val pictureDialog = AlertDialog.Builder(context)
+                pictureDialog.setTitle("Report!")
+                pictureDialog.setMessage("Do you want to report this picture?")
+
+                pictureDialog.setNegativeButton("Yes"){ dialog, which ->
+                    val polaroidKey = polaroid.key
+                    val reportRef = FirebaseDatabase.getInstance().getReference("POTD/reportedPost")
+                    val reportedPost = reportRef.child("$polaroidKey")
+                    val reportedPostsListener = object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            // The user haven't liked the picture so we add the like to the database
+
+                            // Increment the reports on the post
+                            reportedPost.runTransaction(object : Transaction.Handler{
+                                override fun doTransaction(p0: MutableData): Transaction.Result {
+                                    // CUZ FIREBASE TRANSACTIONS ARE STRANGE... https://stackoverflow.com/questions/35818946/firebase-runtransaction-not-working-mutabledata-is-null
+                                    if(p0.value == null) {
+                                        // Set value to 1 if the assumed value of null was correct, else
+                                        // firebase will redo the transaction with the new value fetched from database.
+                                        p0.value = 1
+                                    } else {
+                                        var reports = p0.value as Long
+                                        p0.value = ++reports
+                                    }
+
+                                    return Transaction.success(p0)
+                                }
+                                override fun onComplete(p0: DatabaseError?, p1: Boolean, p2: DataSnapshot?) {
+                                    Log.d("reportPic", "New reports amount = " + p2?.value.toString())
+                                }
+                            })
+
+                        }
+                        override fun onCancelled(databaseError: DatabaseError) {
+                            println("loadPost:onCancelled ${databaseError.toException()}")
+                        }
+                    }
+                    reportedPost.addListenerForSingleValueEvent(reportedPostsListener)
+
                 }
-                // Add menu
-                sendReport(polaroid.key)
+                pictureDialog.setPositiveButton("No"){ dialog, which ->
+
+                }
+
+                pictureDialog.show()
             }
+
 
 
 
