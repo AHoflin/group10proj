@@ -33,9 +33,10 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="D:\Downloads\potd-logo.png" />
-                                      <entry key="outputName" value="ic_logo" />
+                                      <entry key="imageAsset" value="C:\Users\jdeiv\Downloads\first-prize.png" />
+                                      <entry key="outputName" value="ic_potd_winner" />
+                                      <entry key="theme" value="CUSTOM" />
+                                      <entry key="themeColor" value="ffbf00" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -127,6 +128,11 @@
                                 </PersistentState>
                               </value>
                             </entry>
+                          </map>
+                        </option>
+                        <option name="values">
+                          <map>
+                            <entry key="outputIconType" value="ACTIONBAR" />
                           </map>
                         </option>
                       </PersistentState>

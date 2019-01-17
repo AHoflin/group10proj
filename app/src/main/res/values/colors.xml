@@ -11,5 +11,7 @@
     <color name="colorPrimaryTextLight">#fcfcfb</color>
     <color name="colorPrimaryTextDark">#2e2e2e</color>
     <color name="colorAccent">#d2a27d</color>
+    <color name="colorGolden">#ffdf80</color>
+
 
 </resources>
