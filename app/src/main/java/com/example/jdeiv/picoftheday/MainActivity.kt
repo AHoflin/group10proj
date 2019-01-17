@@ -251,6 +251,7 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
             // Send user to settings page
             val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
+            finish()
             /* The following return should not run, but is necessary in order to compile */
             return false
         } else {
