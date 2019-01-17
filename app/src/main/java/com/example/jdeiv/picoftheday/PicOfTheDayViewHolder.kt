@@ -44,7 +44,7 @@ class PicOfTheDayViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             itemView.favorite.setImageResource(R.drawable.ic_potd_winner)
             itemView.favorite.clearColorFilter()
             itemView.favorite.setColorFilter(R.color.colorGolden, PorterDuff.Mode.SRC_ATOP)
-
+            itemView.moreButton.visibility = View.INVISIBLE
             itemView.timestamp.text = polaroid.uploadedDate
         }
     }
