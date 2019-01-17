@@ -74,6 +74,12 @@ class SettingsActivity : AppCompatActivity() {
 
 
         }
+        btn_reset_pwd_2.setOnClickListener {
+            val intent = Intent(this, ResetPasswordActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
         getSupportActionBar()?.setDisplayShowHomeEnabled(true)
         getSupportActionBar()?.setDisplayShowTitleEnabled(false)
 
