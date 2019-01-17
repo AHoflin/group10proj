@@ -16,12 +16,16 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import java.util.*
 import android.arch.paging.ItemKeyedDataSource
 import android.content.Context
+import android.content.Intent
 import android.content.res.Resources
 import android.location.Location
+import android.net.Uri
+import android.support.v4.content.ContextCompat.startActivity
 import android.support.v4.content.res.TypedArrayUtils.getString
 import android.support.v4.widget.SwipeRefreshLayout
 import android.util.Log
 import android.widget.LinearLayout
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 import io.reactivex.Completable
@@ -189,12 +193,12 @@ class PolaroidViewHolder(view: View) : RecyclerView.ViewHolder(view) {
                 }
                 // Not a double click
                 else {
+
                     // (For future functionality, maybe display location
                     // when single click, like instagram shows tagged people)
                 }
                 lastClickTime = currentTime
             }
-
             // Calculate how many seconds ago the post was uploaded
             val currTime = System.currentTimeMillis()/1000
             val uploadedTime = polaroid.uploaded
@@ -220,6 +224,17 @@ class PolaroidViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             } else {
                timeAgoString = timeAgoSeconds.toString() + " " + itemView.context.getString(R.string.seconds) + " " + itemView.context.getString(R.string.ago)
             }
+
+            itemView.moreButton.setOnClickListener{
+                fun sendReport(polaroidKey: String){
+                    val reportsRef = FirebaseDatabase.getInstance().getReference("POTD/reportedPost/")
+                    reportsRef.child(polaroidKey).setValue("not handled")
+                }
+                // Add menu
+                sendReport(polaroid.key)
+            }
+
+
 
             Log.d("TimeAgo", timeAgoString)
             itemView.timestamp.text = timeAgoString
@@ -318,6 +333,9 @@ class PolaroidViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             }
         }
     }
+
+
+
     companion object {
         fun create(parent: ViewGroup): PolaroidViewHolder {
             val view = LayoutInflater.from(parent.context)
@@ -425,17 +443,6 @@ class PolaroidDataSource(private val compositeDisposable: CompositeDisposable, p
         }
         return false
     }
-// Antons
-//    fun checkPolarodExists(polaroidKey: String?): Boolean {
-//        for (curPolaroid in polaroids){
-//            val curKey = curPolaroid.key
-//            if (curKey == polaroidKey)
-//            {
-//                return true
-//            }
-//        }
-//        return false
-//    }
 
     override fun loadInitial(params: LoadInitialParams<String>, callback: LoadInitialCallback<Polaroid>) {
         Log.d("TimeAgoLocationDistanceFunc", "In LoadInitial. Load size: " + params.requestedLoadSize.toString() )
