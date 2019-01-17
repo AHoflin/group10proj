@@ -28,12 +28,14 @@ import java.util.*
 import android.view.KeyEvent.KEYCODE_MENU
 import android.widget.CheckBox
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 //import com.soundcloud.android.crop.Crop
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.fragment_camera.view.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
+import kotlinx.android.synthetic.main.activity_settings.*
 
 
 class CameraFragment : Fragment() {
@@ -53,6 +55,8 @@ class CameraFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_camera, container, false)
         setHasOptionsMenu(true)
+
+
 
         if (savedInstanceState != null){
             Log.d("CameraFragment", "savedInstanceState != null")
@@ -186,6 +190,7 @@ class CameraFragment : Fragment() {
             return
         }
 
+        Toast.makeText(context, "Uploading Image", Toast.LENGTH_SHORT).show()
         //create random filename
         val filename = UUID.randomUUID().toString()
         val ref = FirebaseStorage.getInstance().getReference("images/$filename")
@@ -219,6 +224,7 @@ class CameraFragment : Fragment() {
         val usermail = currentUser!!.email.toString()
         val image = ImageStats(filename, 0, input, usermail, date, fetchedPosition)
         Log.d("User at upload", "usermail: $usermail")
+
 
         key.setValue(image).addOnSuccessListener {
             Toast.makeText(context, "Image uploaded!", Toast.LENGTH_SHORT).show()
