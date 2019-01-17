@@ -17,11 +17,13 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.support.v7.app.ActionBar
 import android.support.v7.app.AlertDialog
+import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.Toast
+//import android.widget.Toolbar
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.LocationServices
 import com.google.firebase.auth.FirebaseAuth
@@ -60,7 +62,7 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
                 openFragment(cameraFragment)*/
                 mViewpager?.setCurrentItem(0)
                 val checkmark = menuToolbar?.findItem(R.id.upload_check)
-                checkmark?.isVisible = true
+                //checkmark?.isVisible = true
 
                 //PASS checkmark TO THE OTHER FRAGMENT SO THAT WE CAN PUT A LISTENER TO IT
 
@@ -95,6 +97,7 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        setSupportActionBar(my_toolbar)
         buildGoogleApiClient()
 
         createLocationFile()
@@ -121,15 +124,12 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
         mViewpager?.setCurrentItem(1)
         mViewpager?.offscreenPageLimit = 2
 
-
-        toolbar = supportActionBar!!
         val bottomNavigation: BottomNavigationView = findViewById(R.id.bottomNavigationView)
         bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         /* Setting the first page to home page. This is needed for content to load without having to press a tab. */
         bottomNavigation.selectedItemId = R.id.navigation_home
 
         getSupportActionBar()?.setDisplayShowHomeEnabled(true)
-        getSupportActionBar()?.setIcon(R.mipmap.ic_pic_of_the_day_logo)
         getSupportActionBar()?.setDisplayShowTitleEnabled(false)
 
     }
@@ -251,6 +251,7 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
             // Send user to settings page
             val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
+            finish()
             /* The following return should not run, but is necessary in order to compile */
             return false
         } else {

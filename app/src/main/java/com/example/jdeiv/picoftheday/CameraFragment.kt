@@ -17,6 +17,7 @@ import android.provider.MediaStore
 import android.support.v4.app.Fragment
 import android.support.v4.content.PermissionChecker.checkSelfPermission
 import android.support.v7.view.menu.MenuAdapter
+import android.text.format.DateUtils
 import android.util.Log
 import android.view.*
 import android.widget.Toast
@@ -34,6 +35,8 @@ import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.fragment_camera.view.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
+import java.text.SimpleDateFormat
+import kotlinx.android.synthetic.main.activity_settings.*
 
 
 class CameraFragment : Fragment() {
@@ -79,7 +82,13 @@ class CameraFragment : Fragment() {
         }
 
         view.card_imageButton.setOnClickListener(){
-            startDialog()
+            if (selectedPhotoUri2 == null){
+                startDialog()
+            } else {
+                val intent = CropImage.activity(selectedPhotoUri2).setAspectRatio(1,1)
+                    .getIntent(context!!)
+                startActivityForResult(intent, CROP_REQUEST_CODE)
+            }
         }
 
         return view
@@ -90,7 +99,10 @@ class CameraFragment : Fragment() {
         // Inflating the toolbar menu
         inflater.inflate(R.menu.top_menu_main, menu)
         val settings = menu?.findItem(R.id.settings_button)
+        val check = menu?.findItem(R.id.upload_check)
+        check?.isVisible = false
         settings?.isVisible = false
+
         return super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -146,10 +158,16 @@ class CameraFragment : Fragment() {
             val bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver!!, selectedPhotoUri)
             card_imageButton.setImageBitmap(bitmap)
         }
+        if (requestCode == CROP_REQUEST_CODE && resultCode == Activity.RESULT_CANCELED) {
+            if (selectedPhotoUri == null){
+                selectedPhotoUri2 = null
+            }
+        }
         if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_CAPTURE_CODE){
             Log.d("CameraFragment", "Picture taken")
             //selectedPhotoUri = image_uri
             //Crop.of(image_uri, selectedPhotoUri).asSquare().start(activity)
+            selectedPhotoUri2 = image_uri
             val intent = CropImage.activity(image_uri).setAspectRatio(1,1)
                 .getIntent(context!!)
             startActivityForResult(intent, CROP_REQUEST_CODE)
@@ -171,6 +189,7 @@ class CameraFragment : Fragment() {
             return
         }
 
+        Toast.makeText(context, "Uploading Image", Toast.LENGTH_SHORT).show()
         //create random filename
         val filename = UUID.randomUUID().toString()
         val ref = FirebaseStorage.getInstance().getReference("images/$filename")
@@ -191,7 +210,13 @@ class CameraFragment : Fragment() {
     //save image and all necessary information into database
     private fun saveImageToFirebaseDb(filename: String, imgFilename: String){
 
-        val date = Calendar.getInstance().time
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_YEAR, -1)
+        val date30 = dateFormat.format(calendar.time)
+        val date = dateFormat.format(Date())
+        val dateTimeMS = System.currentTimeMillis()
+        Log.d("DATERR", "Current date:" + date + ", -1 day: " + date30)
 
         val ref = FirebaseDatabase.getInstance().getReference("/POTD/posts")
         val key = ref.push()
@@ -202,14 +227,16 @@ class CameraFragment : Fragment() {
         // If user is signed in.
         val currentUser = FirebaseAuth.getInstance().currentUser
         val usermail = currentUser!!.email.toString()
-        val image = ImageStats(filename, 0, input, usermail, date, fetchedPosition)
+        val image = ImageStats(filename, 0, input, usermail, date, dateTimeMS, fetchedPosition)
         Log.d("User at upload", "usermail: $usermail")
+
 
         key.setValue(image).addOnSuccessListener {
             Toast.makeText(context, "Image uploaded!", Toast.LENGTH_SHORT).show()
             card_imageButton.setImageBitmap(null)
             card_text.text = null
             selectedPhotoUri = null
+            selectedPhotoUri2 = null
             checkmark.isEnabled = true
         }
 
