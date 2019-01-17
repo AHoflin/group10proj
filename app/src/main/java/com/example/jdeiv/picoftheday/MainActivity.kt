@@ -97,6 +97,8 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
 
         buildGoogleApiClient()
 
+        createLocationFile()
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             //Location Permission already granted
             checkLocationPermission()
@@ -130,6 +132,11 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
         getSupportActionBar()?.setIcon(R.mipmap.ic_pic_of_the_day_logo)
         getSupportActionBar()?.setDisplayShowTitleEnabled(false)
 
+    }
+
+    private fun createLocationFile(){
+        val fileName = "/location.txt"
+        val file = File(this.dataDir.toString() + fileName)
     }
 
     override fun onLocationChanged(location: Location?) {
