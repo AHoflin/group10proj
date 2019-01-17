@@ -29,7 +29,6 @@ import java.util.*
 import android.view.KeyEvent.KEYCODE_MENU
 import android.widget.CheckBox
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 //import com.soundcloud.android.crop.Crop
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
