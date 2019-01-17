@@ -52,6 +52,12 @@ class LoginActivity : AppCompatActivity() {
                 }
         }
 
+        text_forgot_pw.setOnClickListener {
+            val intent = Intent(this, ResetPasswordActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
         text_notregistered.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
