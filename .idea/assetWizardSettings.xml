@@ -16,6 +16,21 @@
                             <entry key="actionbar">
                               <value>
                                 <PersistentState>
+                                  <option name="children">
+                                    <map>
+                                      <entry key="image">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="paddingPercent" value="5" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
+                                    </map>
+                                  </option>
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
@@ -31,6 +46,17 @@
                                 <PersistentState>
                                   <option name="children">
                                     <map>
+                                      <entry key="backgroundImage">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="scalingPercent" value="85" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
                                       <entry key="foregroundClipArt">
                                         <value>
                                           <PersistentState>
@@ -47,8 +73,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="scalingPercent" value="94" />
-                                                <entry key="trimmed" value="true" />
+                                                <entry key="scalingPercent" value="87" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -61,11 +86,13 @@
                                       <entry key="backgroundAssetType" value="COLOR" />
                                       <entry key="backgroundColor" value="c3a894" />
                                       <entry key="backgroundLayerName" value="ic_launcher_background" />
-                                      <entry key="foregroundImage" value="D:\Downloads\potd-logo.png" />
+                                      <entry key="foregroundImage" value="D:\Downloads\potdlogo.png" />
                                       <entry key="foregroundLayerName" value="ic_launcher_foreground" />
-                                      <entry key="legacyIconShape" value="NONE" />
-                                      <entry key="outputName" value="ic_pic_of_the_day_logo" />
+                                      <entry key="generateRoundIcon" value="false" />
+                                      <entry key="legacyIconShape" value="HRECT" />
+                                      <entry key="outputName" value="ic_pic_of_the_day_logo_test" />
                                       <entry key="showSafeZone" value="false" />
+                                      <entry key="webIconShape" value="NONE" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -81,6 +108,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
+                                                <entry key="paddingPercent" value="5" />
                                                 <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
@@ -93,7 +121,7 @@
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
                                       <entry key="backgroundColor" value="c3a894" />
-                                      <entry key="imageAsset" value="D:\Downloads\potd-logo.png" />
+                                      <entry key="imageAsset" value="D:\Downloads\potdlogo.png" />
                                     </map>
                                   </option>
                                 </PersistentState>

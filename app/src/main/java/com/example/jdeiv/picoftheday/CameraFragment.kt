@@ -90,7 +90,10 @@ class CameraFragment : Fragment() {
         // Inflating the toolbar menu
         inflater.inflate(R.menu.top_menu_main, menu)
         val settings = menu?.findItem(R.id.settings_button)
+        val check = menu?.findItem(R.id.upload_check)
+        check?.isVisible = false
         settings?.isVisible = false
+
         return super.onCreateOptionsMenu(menu, inflater)
     }
 

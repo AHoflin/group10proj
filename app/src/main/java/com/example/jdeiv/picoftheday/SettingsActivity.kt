@@ -15,6 +15,8 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
+        setSupportActionBar(my_toolbar)
+
         btn_logout.setOnClickListener {
             Toast.makeText(this, "Logging out...", Toast.LENGTH_SHORT).show()
             FirebaseAuth.getInstance().signOut()
@@ -22,10 +24,14 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+        getSupportActionBar()?.setDisplayShowHomeEnabled(true)
+        getSupportActionBar()?.setDisplayShowTitleEnabled(false)
+
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         // Inflating the toolbar menu
         menuInflater.inflate(R.menu.top_menu_settings, menu)
+
         return true
     }
 

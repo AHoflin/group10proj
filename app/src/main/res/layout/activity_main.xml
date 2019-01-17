@@ -8,6 +8,18 @@
         tools:context=".MainActivity"
         >
 
+    <android.support.v7.widget.Toolbar
+            android:id="@+id/my_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            style="@style/HeaderBar"
+            android:elevation="4dp"
+    >
+
+        <ImageView android:layout_width="100dp" android:layout_height="match_parent" android:src="@drawable/potdlogo"/>
+
+    </android.support.v7.widget.Toolbar>
+
     <com.example.jdeiv.picoftheday.NonSwipeableViewPager
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
@@ -36,6 +48,7 @@
             app:itemIconSize="28dp"
             app:menu="@menu/navigation"
             android:id="@+id/bottomNavigationView"
+            android:elevation="4dp"
     />
 
 
