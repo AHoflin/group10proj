@@ -65,6 +65,7 @@ class SettingsActivity : AppCompatActivity() {
 
             deleteLatestDialog.setNegativeButton("Yes"){ dialog, which ->
                 deletePic()
+                Toast.makeText(this,"Removed your latest picture!", Toast.LENGTH_SHORT)
             }
             deleteLatestDialog.setPositiveButton("No") { dialog, which ->
 

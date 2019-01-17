@@ -86,7 +86,7 @@ class LocationTask(private var context: Context, private var fusedLocationProvid
 
     override fun onPostExecute(result: Any?) {
         super.onPostExecute(result)
-
+        // Check if long or lat is 0
         val fileName = "/location.txt"
         val file = File(context.dataDir.toString() + fileName)
         file.bufferedWriter().use { out -> out.write(lng.toString()+ "\n" + lat.toString()) }
