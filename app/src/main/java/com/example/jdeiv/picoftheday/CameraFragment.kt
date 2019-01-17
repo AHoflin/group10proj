@@ -34,6 +34,7 @@ import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.fragment_camera.view.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
+import kotlinx.android.synthetic.main.activity_settings.*
 
 
 class CameraFragment : Fragment() {
@@ -53,6 +54,8 @@ class CameraFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_camera, container, false)
         setHasOptionsMenu(true)
+
+
 
         if (savedInstanceState != null){
             Log.d("CameraFragment", "savedInstanceState != null")
