@@ -139,11 +139,6 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
         val file = File(this.dataDir.toString() + fileName)
     }
 
-    private fun createLocationFile(){
-        val fileName = "/location.txt"
-        val file = File(this.dataDir.toString() + fileName)
-    }
-
     override fun onLocationChanged(location: Location?) {
         //Boilerplate mumbojumbo
     }

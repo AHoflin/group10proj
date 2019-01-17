@@ -48,12 +48,12 @@ class CameraFragment : Fragment() {
     private val IMAGE_CAPTURE_CODE = 1001
     private val CROP_REQUEST_CODE = 1002
     var image_uri: Uri? = null
+    lateinit var checkmark: MenuItem
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_camera, container, false)
         setHasOptionsMenu(true)
 
-        //startDialog()
         if (savedInstanceState != null){
             Log.d("CameraFragment", "savedInstanceState != null")
             image_uri = savedInstanceState.getParcelable("imageUri")
@@ -85,6 +85,7 @@ class CameraFragment : Fragment() {
         return view
     }
 
+    //creates toolbar for camera fragment
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater){
         // Inflating the toolbar menu
         inflater.inflate(R.menu.top_menu_main, menu)
@@ -93,13 +94,16 @@ class CameraFragment : Fragment() {
         return super.onCreateOptionsMenu(menu, inflater)
     }
 
+    //listens to keypress in toolbar
     override fun onOptionsItemSelected(item: MenuItem): Boolean{
         val id = item.getItemId()
+        checkmark = item
 
         if (id == R.id.upload_check){
             val positionExist = checkPosition()
             // Send user to settings page
             if(positionExist){
+                item.isEnabled = false
                 uploadImageToFirebaseStorage()
             }else{
                 Toast.makeText(context, "No location was found", Toast.LENGTH_SHORT).show()
@@ -108,9 +112,9 @@ class CameraFragment : Fragment() {
             return false
         }
         return super.onOptionsItemSelected(item)
-
     }
 
+    //when called prompts a select screen
     private fun startDialog() {
         val pictureDialog = AlertDialog.Builder(activity)
         pictureDialog.setTitle("Upload photo option")
@@ -126,8 +130,6 @@ class CameraFragment : Fragment() {
             startActivityForResult(intent, 0)
         }
         pictureDialog.show()
-
-
     }
 
     companion object {
@@ -165,6 +167,7 @@ class CameraFragment : Fragment() {
     private fun uploadImageToFirebaseStorage(){
         if (selectedPhotoUri == null){
             Toast.makeText(context, "No image selected!", Toast.LENGTH_SHORT).show()
+            checkmark.isEnabled = true
             return
         }
 
@@ -203,6 +206,10 @@ class CameraFragment : Fragment() {
 
         ref.setValue(image).addOnSuccessListener {
             Toast.makeText(context, "Image uploaded!", Toast.LENGTH_SHORT).show()
+            card_imageButton.setImageBitmap(null)
+            card_text.text = null
+            selectedPhotoUri = null
+            checkmark.isEnabled = true
         }
 
     }
