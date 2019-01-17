@@ -16,12 +16,16 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import java.util.*
 import android.arch.paging.ItemKeyedDataSource
 import android.content.Context
+import android.content.Intent
 import android.content.res.Resources
 import android.location.Location
+import android.net.Uri
+import android.support.v4.content.ContextCompat.startActivity
 import android.support.v4.content.res.TypedArrayUtils.getString
 import android.support.v4.widget.SwipeRefreshLayout
 import android.util.Log
 import android.widget.LinearLayout
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 import io.reactivex.Completable

@@ -24,7 +24,6 @@ class RegisterActivity : AppCompatActivity(){
         auth = FirebaseAuth.getInstance()
 
         btn_register.setOnClickListener {
-            Toast.makeText(this, "Button pressed", Toast.LENGTH_SHORT).show()
             val email = edittext_email_register.text.toString()
             val password = edittext_password_register.text.toString()
             val password2 = edittext_password2_register.text.toString()

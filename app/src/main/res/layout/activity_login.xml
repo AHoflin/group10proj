@@ -4,16 +4,30 @@
                                              xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
                                              android:layout_height="match_parent">
 
+    <android.support.v7.widget.Toolbar
+            android:id="@+id/register_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            style="@style/HeaderBar"
+            android:elevation="4dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView android:layout_width="100dp" android:layout_height="match_parent" android:src="@drawable/potdlogo"/>
+
+    </android.support.v7.widget.Toolbar>
+
     <EditText
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="43dp"
             android:ems="10"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="32dp" android:id="@+id/edittext_email_login"
+            android:id="@+id/edittext_email_login"
             app:layout_constraintStart_toStartOf="parent" android:inputType="textEmailAddress"
             android:hint="@string/edittext_email_login"
             android:layout_marginStart="32dp" android:layout_marginEnd="32dp"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/register_toolbar"/>
     <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -29,7 +43,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/btn_register" app:layout_constraintEnd_toEndOf="@+id/edittext_password_login"
             app:layout_constraintStart_toStartOf="@+id/edittext_password_login" android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/edittext_password_login"/>
+            app:layout_constraintTop_toBottomOf="@+id/edittext_password_login"
+            android:background="@drawable/roundedbutton"/>
     <TextView
             android:text="@string/text_notregistered"
             android:layout_width="0dp"
