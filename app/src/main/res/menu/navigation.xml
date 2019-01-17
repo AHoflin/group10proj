@@ -3,18 +3,18 @@
     <item
             android:id="@+id/navigation_camera"
             android:icon="@drawable/ic_camera_light"
-            android:title="Camera"
+            android:title="@string/navigation_publish"
     />
 
     <item
             android:id="@+id/navigation_home"
             android:icon="@drawable/ic_home_light"
-            android:title="Home"
+            android:title="@string/home_feed"
     />
     <item
             android:id="@+id/navigation_picOfTheDay"
             android:icon="@drawable/ic_picoftheday"
-            android:title="Pic of the day"
+            android:title="@string/pic_of_the_day_feed"
     />
 
 </menu>

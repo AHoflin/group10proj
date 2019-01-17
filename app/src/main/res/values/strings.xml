@@ -21,4 +21,8 @@
     <string name="btn_take_photo">Camera</string>
     <string name="btn_select_photo">Gallery</string>
 
+    <string name="navigation_publish">Publish</string>
+    <string name="home_feed">Home</string>
+    <string name="pic_of_the_day_feed">Pic of the day</string>
+
 </resources>
