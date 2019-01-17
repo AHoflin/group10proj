@@ -1,8 +1,10 @@
 package com.example.jdeiv.picoftheday
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -24,6 +26,34 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+
+        // Put this in a delete account button
+        btn_delete_account.setOnClickListener {
+            val deleteAccountDialog = AlertDialog.Builder(this)
+            deleteAccountDialog.setTitle("Delete account")
+            deleteAccountDialog.setMessage("Are you sure you want to delete your account?")
+
+            deleteAccountDialog.setPositiveButton("Yes"){ dialog, which ->
+                val user = FirebaseAuth.getInstance().currentUser
+                user?.delete()
+                    ?.addOnCompleteListener{
+                        if(it.isSuccessful){
+                            Log.d("SettingsActivity", "User account deleted")
+                            Toast.makeText(this,"Your account has been deleted", Toast.LENGTH_LONG).show()
+                            val intent = Intent(this, LoginActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+                    }
+            }
+
+            deleteAccountDialog.setNegativeButton("No"){ dialog, which ->
+                // Do someting maybe not...
+            }
+
+            deleteAccountDialog.show()
+        }
+
         getSupportActionBar()?.setDisplayShowHomeEnabled(true)
         getSupportActionBar()?.setDisplayShowTitleEnabled(false)
 

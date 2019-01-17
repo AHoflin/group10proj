@@ -28,7 +28,9 @@
         <activity android:name=".MainActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"/>
 
         <activity android:name=".SettingsActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" android:screenOrientation="portrait" android:theme="@style/AppTheme">
+
+        </activity>
         <meta-data android:name="preloaded_fonts" android:resource="@array/preloaded_fonts"/>
     </application>
 
