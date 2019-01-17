@@ -25,5 +25,10 @@
     <string name="navigation_publish">Publish</string>
     <string name="home_feed">Home</string>
     <string name="pic_of_the_day_feed">Pic of the day</string>
+    <string name="reset_pwd">Reset password</string>
+    <string name="confirm_email">Please confirm your email</string>
+    <string name="btn_send_reset">Send Email Reset Link</string>
+    <string name="text_login">Go back to login</string>
+    <string name="delete_last">Delete your latest pic</string>
 
 </resources>

@@ -9,6 +9,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_settings.*
 
 class SettingsActivity : AppCompatActivity() {
@@ -33,7 +37,7 @@ class SettingsActivity : AppCompatActivity() {
             deleteAccountDialog.setTitle("Delete account")
             deleteAccountDialog.setMessage("Are you sure you want to delete your account?")
 
-            deleteAccountDialog.setPositiveButton("Yes"){ dialog, which ->
+            deleteAccountDialog.setNegativeButton("Yes"){ dialog, which ->
                 val user = FirebaseAuth.getInstance().currentUser
                 user?.delete()
                     ?.addOnCompleteListener{
@@ -47,16 +51,67 @@ class SettingsActivity : AppCompatActivity() {
                     }
             }
 
-            deleteAccountDialog.setNegativeButton("No"){ dialog, which ->
+            deleteAccountDialog.setPositiveButton("No"){ dialog, which ->
                 // Do someting maybe not...
             }
 
             deleteAccountDialog.show()
         }
 
+        btn_delete_pic.setOnClickListener{
+            val deleteLatestDialog = AlertDialog.Builder(this)
+            deleteLatestDialog.setTitle("Delete latest pic?")
+            deleteLatestDialog.setMessage("Are you sure you want to delete your latest pic?")
+
+            deleteLatestDialog.setNegativeButton("Yes"){ dialog, which ->
+                deletePic()
+            }
+            deleteLatestDialog.setPositiveButton("No") { dialog, which ->
+
+            }
+
+            deleteLatestDialog.show()
+
+
+        }
+        btn_reset_pwd_2.setOnClickListener {
+            val intent = Intent(this, ResetPasswordActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
         getSupportActionBar()?.setDisplayShowHomeEnabled(true)
         getSupportActionBar()?.setDisplayShowTitleEnabled(false)
 
+    }
+
+    fun deletePic(){
+        val firebaseRef = FirebaseDatabase.getInstance().getReference("POTD/posts")
+        val userEmail = FirebaseAuth.getInstance().currentUser?.email
+        val query = firebaseRef.orderByChild("user").equalTo(userEmail)
+        val listener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var latestPostTimeStamp: Long? = null
+                var latestPostKey: String? = null
+                for (messageSnapshot in dataSnapshot.children) {
+                    val timeStamp = messageSnapshot.child("uploadTime").value as Long
+                    if (latestPostTimeStamp == null){
+                        latestPostTimeStamp = timeStamp
+                        latestPostKey = messageSnapshot.key.toString()
+                    } else if (latestPostTimeStamp < timeStamp) {
+                        latestPostTimeStamp = timeStamp
+                        latestPostKey = messageSnapshot.key.toString()
+                    }
+                }
+                if (latestPostKey != null) {
+                    firebaseRef.child(latestPostKey).setValue(null)
+                }
+            }
+            override fun onCancelled(databaseError: DatabaseError) {
+                println("loadPost:onCancelled ${databaseError.toException()}")
+            }
+        }
+        query.addListenerForSingleValueEvent(listener)
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         // Inflating the toolbar menu
