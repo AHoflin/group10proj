@@ -156,7 +156,9 @@ class CameraFragment : Fragment() {
             card_imageButton.setImageBitmap(bitmap)
         }
         if (requestCode == CROP_REQUEST_CODE && resultCode == Activity.RESULT_CANCELED) {
-            selectedPhotoUri2 = null
+            if (selectedPhotoUri == null){
+                selectedPhotoUri2 = null
+            }
         }
         if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_CAPTURE_CODE){
             Log.d("CameraFragment", "Picture taken")
