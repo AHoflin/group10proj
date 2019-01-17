@@ -35,20 +35,22 @@
         />
 
         <TextView
+                android:paddingTop="16dp"
                 android:id="@+id/card_text"
                 android:maxWidth="250dp"
                 android:maxHeight="67dp"
-                android:layout_width="0dp"
+                android:layout_width="263dp"
                 android:layout_height="75dp"
                 android:text="remove this text!"
                 android:textStyle="bold"
                 android:textSize="25sp"
                 android:textAlignment="textStart"
-                app:layout_constraintStart_toStartOf="@+id/card_image"
                 android:fontFamily="@font/caveat_bold"
                 android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/card_image" android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toStartOf="@+id/favorite"/>
+                app:layout_constraintTop_toBottomOf="@+id/card_image"
+                app:layout_constraintVertical_bias="1.0" android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/favorite" android:layout_marginStart="16dp"
+                app:layout_constraintStart_toStartOf="parent"/>
 
         <ImageView
                 android:id="@+id/favorite"
@@ -69,6 +71,14 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"/>
+        <ImageView
+                android:layout_width="22dp"
+                android:layout_height="16dp" app:srcCompat="@drawable/moredots"
+                android:id="@+id/moreButton"
+                android:clickable="true"
+                app:layout_constraintBottom_toTopOf="@+id/card_image"
+                app:layout_constraintTop_toTopOf="parent" app:layout_constraintVertical_bias="0.0"
+                app:layout_constraintEnd_toEndOf="@+id/card_image" android:layout_marginEnd="4dp"/>
 
 
     </android.support.constraint.ConstraintLayout>

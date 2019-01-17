@@ -3,12 +3,34 @@
                                              xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
                                              android:layout_height="match_parent">
 
+    <android.support.v7.widget.Toolbar
+            android:id="@+id/my_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            style="@style/HeaderBar"
+            android:elevation="4dp"
+    >
+
+        <ImageView android:layout_width="100dp" android:layout_height="match_parent" android:src="@drawable/potdlogo"/>
+
+    </android.support.v7.widget.Toolbar>
+
     <Button
             android:text="@string/btn_logout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_logout" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/btn_logout"
+            android:background="@drawable/roundedbutton"
+            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"/>
+            android:layout_marginStart="8dp" app:layout_constraintHorizontal_bias="0.0"
+            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/my_toolbar"/>
+    <Button
+            android:text="DELETE ACCOUNT"
+            android:background="@drawable/roundedbutton"
+            android:layout_height="wrap_content" android:id="@+id/btn_delete_account"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/btn_logout" app:layout_constraintStart_toStartOf="@+id/btn_logout"
+            app:layout_constraintEnd_toEndOf="@+id/btn_logout" android:layout_width="0dp"/>
+
 </android.support.constraint.ConstraintLayout>
