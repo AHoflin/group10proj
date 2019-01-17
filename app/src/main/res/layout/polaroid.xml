@@ -35,6 +35,7 @@
         />
 
         <TextView
+                android:paddingTop="16dp"
                 android:id="@+id/card_text"
                 android:maxWidth="250dp"
                 android:maxHeight="67dp"
