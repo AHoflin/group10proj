@@ -44,6 +44,7 @@ class RegisterActivity : AppCompatActivity(){
                             // Send user to mainactivity
                             val intent = Intent(this, MainActivity::class.java)
                             startActivity(intent)
+                            finish()
                         } else {
                             Log.w("RegisterActivity", "createUserWithEmail:failure", it.exception)
                             Toast.makeText(baseContext, "Authentication failed.", Toast.LENGTH_SHORT).show()
