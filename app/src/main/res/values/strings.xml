@@ -25,5 +25,6 @@
     <string name="navigation_publish">Publish</string>
     <string name="home_feed">Home</string>
     <string name="pic_of_the_day_feed">Pic of the day</string>
+    <string name="reset_pwd">Reset password</string>
 
 </resources>
