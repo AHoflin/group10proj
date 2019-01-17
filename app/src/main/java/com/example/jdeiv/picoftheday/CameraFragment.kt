@@ -16,10 +16,9 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v4.app.Fragment
 import android.support.v4.content.PermissionChecker.checkSelfPermission
+import android.support.v7.view.menu.MenuAdapter
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
@@ -27,7 +26,7 @@ import kotlinx.android.synthetic.main.fragment_camera.*
 import java.io.File
 import java.util.*
 import android.view.KeyEvent.KEYCODE_MENU
-import android.view.Menu
+import android.widget.CheckBox
 import com.google.firebase.auth.FirebaseAuth
 //import com.soundcloud.android.crop.Crop
 import com.theartofdev.edmodo.cropper.CropImage
@@ -52,6 +51,7 @@ class CameraFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_camera, container, false)
+        setHasOptionsMenu(true)
 
         //startDialog()
         if (savedInstanceState != null){
@@ -78,25 +78,37 @@ class CameraFragment : Fragment() {
             askForPermissionThenOpenCamera()
         }
 
-        view.upload_to_db_button.setOnClickListener{
-
-            val positionExist = checkPosition()
-            
-            //Checks if position exist. Uploading without position will cause a crash
-            if(positionExist){
-                uploadImageToFirebaseStorage()
-            } else{
-                Toast.makeText(context, "No location was found", Toast.LENGTH_SHORT).show()
-            }
-
-
-        }
-
         view.card_imageButton.setOnClickListener(){
             startDialog()
         }
 
         return view
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater){
+        // Inflating the toolbar menu
+        inflater.inflate(R.menu.top_menu_main, menu)
+        val settings = menu?.findItem(R.id.settings_button)
+        settings?.isVisible = false
+        return super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean{
+        val id = item.getItemId()
+
+        if (id == R.id.upload_check){
+            val positionExist = checkPosition()
+            // Send user to settings page
+            if(positionExist){
+                uploadImageToFirebaseStorage()
+            }else{
+                Toast.makeText(context, "No location was found", Toast.LENGTH_SHORT).show()
+            }
+            /* The following return should not run, but is necessary in order to compile */
+            return false
+        }
+        return super.onOptionsItemSelected(item)
+
     }
 
     private fun startDialog() {
