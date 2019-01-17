@@ -22,7 +22,7 @@ class PolaroidDataSource(private val compositeDisposable: CompositeDisposable, p
     }
     var state: MutableLiveData<State> = MutableLiveData()
     val polaroids: MutableList<Polaroid> = mutableListOf()
-    val firebaseRef = FirebaseDatabase.getInstance().getReference("POTD/test")
+    val firebaseRef = FirebaseDatabase.getInstance().getReference("POTD/posts")
     var lastKnownKey: String? = ""
     var firstKnownKey: String? = null
 

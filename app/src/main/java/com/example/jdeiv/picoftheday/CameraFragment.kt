@@ -201,7 +201,7 @@ class CameraFragment : Fragment() {
         val dateTimeMS = System.currentTimeMillis()
         Log.d("DATERR", "Current date:" + date + ", -1 day: " + date30)
 
-        val ref = FirebaseDatabase.getInstance().getReference("/POTD/test")
+        val ref = FirebaseDatabase.getInstance().getReference("/POTD/posts")
         val key = ref.push()
         val input = card_text.text.toString()
 

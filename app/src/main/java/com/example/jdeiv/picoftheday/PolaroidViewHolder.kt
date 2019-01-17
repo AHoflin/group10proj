@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.polaroid.view.*
 class PolaroidViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private var lastClickTime: Long = 0// For double taps on the polaroid image
     private var DOUBLE_CLICK_INTERVAL: Long = 200 //ms
+
     // Function that checks the database if the user liked the post already and then sets
     // the correct imageresource on the itemView.favorite image
     fun checkAndHandleUserLikesPost(polaroidKey: String) {
