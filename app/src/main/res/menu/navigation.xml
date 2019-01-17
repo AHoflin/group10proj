@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
             android:id="@+id/navigation_camera"
-            android:icon="@drawable/ic_camera_light"
-            android:title="Camera"
+            android:icon="@drawable/ic_publish_button"
+            android:title="Publish"
     />
 
     <item

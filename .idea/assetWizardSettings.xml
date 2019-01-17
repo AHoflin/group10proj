@@ -16,11 +16,38 @@
                             <entry key="actionbar">
                               <value>
                                 <PersistentState>
+                                  <option name="children">
+                                    <map>
+                                      <entry key="clipartAsset">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/toggle/ic_star_black_24dp.xml" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
+                                      <entry key="image">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="paddingPercent" value="5" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
+                                    </map>
+                                  </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="D:\Downloads\potd-logo.png" />
-                                      <entry key="outputName" value="ic_logo" />
+                                      <entry key="imageAsset" value="C:\Users\jdeiv\Downloads\first-prize.png" />
+                                      <entry key="outputName" value="ic_potd_winner" />
+                                      <entry key="theme" value="CUSTOM" />
+                                      <entry key="themeColor" value="ffbf00" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -61,7 +88,7 @@
                                       <entry key="backgroundAssetType" value="COLOR" />
                                       <entry key="backgroundColor" value="c3a894" />
                                       <entry key="backgroundLayerName" value="ic_launcher_background" />
-                                      <entry key="foregroundImage" value="D:\Downloads\potd-logo.png" />
+                                      <entry key="foregroundImage" value="C:\Users\jdeiv\Downloads\image-add-button.png" />
                                       <entry key="foregroundLayerName" value="ic_launcher_foreground" />
                                       <entry key="legacyIconShape" value="NONE" />
                                       <entry key="outputName" value="ic_pic_of_the_day_logo" />
@@ -99,6 +126,11 @@
                                 </PersistentState>
                               </value>
                             </entry>
+                          </map>
+                        </option>
+                        <option name="values">
+                          <map>
+                            <entry key="outputIconType" value="ACTIONBAR" />
                           </map>
                         </option>
                       </PersistentState>

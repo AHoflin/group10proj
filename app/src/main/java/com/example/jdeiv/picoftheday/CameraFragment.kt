@@ -17,6 +17,7 @@ import android.provider.MediaStore
 import android.support.v4.app.Fragment
 import android.support.v4.content.PermissionChecker.checkSelfPermission
 import android.support.v7.view.menu.MenuAdapter
+import android.text.format.DateUtils
 import android.util.Log
 import android.view.*
 import android.widget.Toast
@@ -34,6 +35,7 @@ import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.fragment_camera.view.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
+import java.text.SimpleDateFormat
 
 
 class CameraFragment : Fragment() {
@@ -191,9 +193,15 @@ class CameraFragment : Fragment() {
     //save image and all necessary information into database
     private fun saveImageToFirebaseDb(filename: String, imgFilename: String){
 
-        val date = Calendar.getInstance().time
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_YEAR, -1)
+        val date30 = dateFormat.format(calendar.time)
+        val date = dateFormat.format(Date())
+        val dateTimeMS = System.currentTimeMillis()
+        Log.d("DATERR", "Current date:" + date + ", -1 day: " + date30)
 
-        val ref = FirebaseDatabase.getInstance().getReference("/POTD/posts")
+        val ref = FirebaseDatabase.getInstance().getReference("/POTD/test")
         val key = ref.push()
         val input = card_text.text.toString()
 
@@ -202,7 +210,7 @@ class CameraFragment : Fragment() {
         // If user is signed in.
         val currentUser = FirebaseAuth.getInstance().currentUser
         val usermail = currentUser!!.email.toString()
-        val image = ImageStats(filename, 0, input, usermail, date, fetchedPosition)
+        val image = ImageStats(filename, 0, input, usermail, date, dateTimeMS, fetchedPosition)
         Log.d("User at upload", "usermail: $usermail")
 
         key.setValue(image).addOnSuccessListener {
