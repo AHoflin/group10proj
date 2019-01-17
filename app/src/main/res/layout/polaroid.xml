@@ -8,7 +8,9 @@
         tools:context=".MainActivity"
         app:cardCornerRadius="1dp"
         app:cardElevation="10dp"
-        app:cardUseCompatPadding="true">
+        app:cardUseCompatPadding="true"
+        android:clickable="false"
+        android:focusable="false">
 
     <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -22,10 +24,9 @@
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_gravity="center"
+                android:clickable="true"
                 android:background="@android:color/black"
-
                 android:scaleType="centerCrop"
-
                 app:layout_constraintDimensionRatio="H,1:1"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +44,6 @@
                 android:textStyle="bold"
                 android:textSize="25sp"
                 android:textAlignment="textStart"
-
                 app:layout_constraintStart_toStartOf="@+id/card_image"
                 android:fontFamily="@font/caveat_bold"
                 android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
@@ -55,6 +55,9 @@
                 android:layout_width="68dp"
                 android:layout_height="58dp"
                 android:tint="@color/colorPrimaryWarmer"
+                android:clickable="true"
+                android:focusable="true"
+                android:focusableInTouchMode="false"
                 app:layout_constraintTop_toBottomOf="@+id/card_image"
                 app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
         <TextView

@@ -58,6 +58,10 @@ class LocationTask(private var context: Context, private var fusedLocationProvid
                                 lat = location!!.latitude
                                 Log.d("LocationTask", location.longitude.toString())
                                 Log.d("LocationTask", location.latitude.toString())
+
+//                                val fileName = "location.txt"
+//                                val file = File(context.dataDir.toString(), fileName)
+//                                file.bufferedWriter().use { out -> out.write(lng.toString() + "\n" + lat.toString()) }
                             }else{
                                 Toast.makeText(context, "Could not find position", Toast.LENGTH_SHORT).show()
                                 //kill application here or something

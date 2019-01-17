@@ -193,7 +193,8 @@ class CameraFragment : Fragment() {
 
         val date = Calendar.getInstance().time
 
-        val ref = FirebaseDatabase.getInstance().getReference("/POTD/$imgFilename")
+        val ref = FirebaseDatabase.getInstance().getReference("/POTD/posts")
+        val key = ref.push()
         val input = card_text.text.toString()
 
         fetchedPosition = updatePosition()
@@ -204,7 +205,7 @@ class CameraFragment : Fragment() {
         val image = ImageStats(filename, 0, input, usermail, date, fetchedPosition)
         Log.d("User at upload", "usermail: $usermail")
 
-        ref.setValue(image).addOnSuccessListener {
+        key.setValue(image).addOnSuccessListener {
             Toast.makeText(context, "Image uploaded!", Toast.LENGTH_SHORT).show()
             card_imageButton.setImageBitmap(null)
             card_text.text = null
