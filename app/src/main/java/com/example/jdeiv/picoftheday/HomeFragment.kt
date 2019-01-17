@@ -1,5 +1,6 @@
 package com.example.jdeiv.picoftheday
 
+import android.app.AlertDialog
 import android.arch.lifecycle.*
 import android.arch.lifecycle.Observer
 import android.arch.paging.*

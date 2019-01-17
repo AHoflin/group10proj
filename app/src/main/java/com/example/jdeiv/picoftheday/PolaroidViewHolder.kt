@@ -1,5 +1,6 @@
 package com.example.jdeiv.picoftheday
 
+import android.app.AlertDialog
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import kotlinx.android.synthetic.main.polaroid.view.*
 class PolaroidViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private var lastClickTime: Long = 0// For double taps on the polaroid image
     private var DOUBLE_CLICK_INTERVAL: Long = 200 //ms
+    private var context = view.context
 
     // Function that checks the database if the user liked the post already and then sets
     // the correct imageresource on the itemView.favorite image
@@ -38,6 +40,55 @@ class PolaroidViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     fun bind(polaroid: Polaroid?) {
         if (polaroid != null) {
+
+            itemView.moreButton.setOnClickListener{
+                val pictureDialog = AlertDialog.Builder(context)
+                pictureDialog.setTitle("Report!")
+                pictureDialog.setMessage("Do you want to report this picture?")
+
+                pictureDialog.setNegativeButton("Yes"){ dialog, which ->
+                    val polaroidKey = polaroid.key
+                    val reportRef = FirebaseDatabase.getInstance().getReference("POTD/reportedPost")
+                    val reportedPost = reportRef.child("$polaroidKey")
+                    val reportedPostsListener = object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            // The user haven't liked the picture so we add the like to the database
+
+                            // Increment the reports on the post
+                            reportedPost.runTransaction(object : Transaction.Handler{
+                                override fun doTransaction(p0: MutableData): Transaction.Result {
+                                    // CUZ FIREBASE TRANSACTIONS ARE STRANGE... https://stackoverflow.com/questions/35818946/firebase-runtransaction-not-working-mutabledata-is-null
+                                    if(p0.value == null) {
+                                        // Set value to 1 if the assumed value of null was correct, else
+                                        // firebase will redo the transaction with the new value fetched from database.
+                                        p0.value = 1
+                                    } else {
+                                        var reports = p0.value as Long
+                                        p0.value = ++reports
+                                    }
+
+                                    return Transaction.success(p0)
+                                }
+                                override fun onComplete(p0: DatabaseError?, p1: Boolean, p2: DataSnapshot?) {
+                                    Log.d("reportPic", "New reports amount = " + p2?.value.toString())
+                                }
+                            })
+
+                        }
+                        override fun onCancelled(databaseError: DatabaseError) {
+                            println("loadPost:onCancelled ${databaseError.toException()}")
+                        }
+                    }
+                    reportedPost.addListenerForSingleValueEvent(reportedPostsListener)
+
+                }
+                pictureDialog.setPositiveButton("No"){ dialog, which ->
+
+                }
+
+                pictureDialog.show()
+            }
+
             itemView.card_text.text = polaroid.captionText
             Picasso.get().load(polaroid.imgSrc).into(itemView.card_image)
             itemView.favorite.setImageResource(R.drawable.ic_favorite)
