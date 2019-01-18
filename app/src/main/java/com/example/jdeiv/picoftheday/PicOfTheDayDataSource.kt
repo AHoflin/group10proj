@@ -25,8 +25,6 @@ class PicOfTheDayDataSource(private val compositeDisposable: CompositeDisposable
     var state: MutableLiveData<State> = MutableLiveData()
     val polaroids: MutableList<Polaroid> = mutableListOf()
     val firebaseRef = FirebaseDatabase.getInstance().getReference("POTD/posts")
-    var lastKnownKey: String? = ""
-    var firstKnownKey: String? = null
 
     private var retryCompletable: Completable? = null
 
@@ -74,6 +72,7 @@ class PicOfTheDayDataSource(private val compositeDisposable: CompositeDisposable
 
         val dateFormat = SimpleDateFormat("yyyy-MM-dd")
         val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_YEAR,1)
         val todaysDate = dateFormat.format(Date())
 
         // Amount of days back we load a winner

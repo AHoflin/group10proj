@@ -52,6 +52,7 @@ class CameraFragment : Fragment() {
     private val CROP_REQUEST_CODE = 1002
     var image_uri: Uri? = null
     lateinit var checkmark: MenuItem
+    var bool : Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_camera, container, false)
@@ -110,19 +111,7 @@ class CameraFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean{
         val id = item.getItemId()
         checkmark = item
-
-        if (id == R.id.upload_check){
-            val positionExist = checkPosition()
-            // Send user to settings page
-            if(positionExist){
-                item.isEnabled = false
-                uploadImageToFirebaseStorage()
-            }else{
-                Toast.makeText(context, "No location was found", Toast.LENGTH_SHORT).show()
-            }
-            /* The following return should not run, but is necessary in order to compile */
-            return false
-        }
+        startUploadDialog()
         return super.onOptionsItemSelected(item)
     }
 
@@ -140,6 +129,30 @@ class CameraFragment : Fragment() {
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
             startActivityForResult(intent, 0)
+        }
+        pictureDialog.show()
+    }
+
+    private fun startUploadDialog() {
+        val pictureDialog = AlertDialog.Builder(activity)
+        pictureDialog.setTitle("Upload")
+        pictureDialog.setMessage("Are you sure you want to upload?")
+
+        pictureDialog.setPositiveButton("Yes"){ dialog, which ->
+                val positionExist = checkPosition()
+                // Send user to settings page
+                if(positionExist){
+                    checkmark.isEnabled = false
+                    uploadImageToFirebaseStorage()
+                }else{
+                    Toast.makeText(context, "No location was found", Toast.LENGTH_SHORT).show()
+                }
+                /* The following return should not run, but is necessary in order to compile */
+
+            }
+
+        pictureDialog.setNegativeButton("No"){ dialog, which ->
+            bool = false
         }
         pictureDialog.show()
     }
@@ -186,6 +199,7 @@ class CameraFragment : Fragment() {
         if (selectedPhotoUri == null){
             Toast.makeText(context, "No image selected!", Toast.LENGTH_SHORT).show()
             checkmark.isEnabled = true
+            bool = false
             return
         }
 
@@ -238,6 +252,7 @@ class CameraFragment : Fragment() {
             selectedPhotoUri = null
             selectedPhotoUri2 = null
             checkmark.isEnabled = true
+            bool = false
         }
 
     }

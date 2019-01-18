@@ -72,6 +72,7 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
                 //toolbar.title = "Home"
                 /*val homeFragment = HomeFragment.newInstance()
                 openFragment(homeFragment)*/
+
                 mViewpager?.setCurrentItem(1)
                 val checkmark = menuToolbar?.findItem(R.id.upload_check)
                 checkmark?.isVisible = false
@@ -162,12 +163,16 @@ class MainActivity : AppCompatActivity(), com.google.android.gms.location.Locati
     private fun showAlert() {
         val dialog = AlertDialog.Builder(this)
         dialog.setTitle("Enable Location")
-            .setMessage("Your Locations Settings is set to 'Off'.\nPlease Enable Location to " + "use this app")
-            .setPositiveButton("Location Settings") { paramDialogInterface, paramInt ->
+        dialog.setMessage("Your Locations Settings is set to 'Off'.\nPlease Enable Location to " + "use this app")
+
+        dialog.setPositiveButton("Location Settings") { paramDialogInterface, paramInt ->
                 val myIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
                 startActivity(myIntent)
             }
-            .setNegativeButton("Cancel") { paramDialogInterface, paramInt -> }
+
+        dialog.setNegativeButton("Exit application") { paramDialogInterface, paramInt ->
+            this.finishAffinity()
+            }
         dialog.show()
 
     }

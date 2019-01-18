@@ -16,6 +16,10 @@
     </android.support.v7.widget.Toolbar>
 
     <Button
+
+
+
+
             android:text="@string/btn_logout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -33,12 +37,20 @@
             app:layout_constraintTop_toBottomOf="@+id/btn_logout" app:layout_constraintEnd_toEndOf="@+id/btn_logout"
             app:layout_constraintStart_toStartOf="@+id/btn_logout" android:background="@drawable/roundedbutton"/>
     <Button
+            android:text="@string/delete_last"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" android:id="@+id/btn_delete_pic"
+            app:layout_constraintEnd_toEndOf="@+id/btn_logout"
+            app:layout_constraintStart_toStartOf="@+id/btn_logout" android:background="@drawable/roundedbutton"
+            app:layout_constraintHorizontal_bias="1.0" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/btn_reset_pwd_2"/>
+    <Button
             android:text="DELETE ACCOUNT"
             android:background="@drawable/roundedbutton"
             android:layout_height="wrap_content" android:id="@+id/btn_delete_account"
             android:layout_width="0dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/btn_reset_pwd_2"
-            app:layout_constraintStart_toStartOf="@+id/btn_reset_pwd_2" app:layout_constraintEnd_toEndOf="@+id/btn_reset_pwd_2"/>
+            app:layout_constraintStart_toStartOf="@+id/btn_reset_pwd_2"
+            app:layout_constraintEnd_toEndOf="@+id/btn_reset_pwd_2" app:layout_constraintHorizontal_bias="1.0"
+            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/btn_delete_pic"/>
 
 </android.support.constraint.ConstraintLayout>
