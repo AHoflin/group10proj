@@ -31,7 +31,7 @@ class LocationTask(private var context: Context, private var fusedLocationProvid
         // Workaround buggfix
         val fileName = "/location.txt"
         val file = File(context.dataDir.toString() + fileName)
-        file.bufferedWriter().use { out -> out.write("13"+ "\n" + "37") }
+        file.bufferedWriter().use { out -> out.write("13.37"+ "\n" + "4.20") }
 
         if(ContextCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             fusedLocationProviderClient.lastLocation.addOnSuccessListener {

@@ -72,6 +72,7 @@ class PicOfTheDayDataSource(private val compositeDisposable: CompositeDisposable
 
         val dateFormat = SimpleDateFormat("yyyy-MM-dd")
         val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_YEAR,1)
         val todaysDate = dateFormat.format(Date())
 
         // Amount of days back we load a winner
