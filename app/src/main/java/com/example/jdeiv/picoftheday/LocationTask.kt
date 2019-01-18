@@ -10,6 +10,7 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.AsyncTask
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
@@ -86,15 +87,20 @@ class LocationTask(private var context: Context, private var fusedLocationProvid
 
     override fun onPostExecute(result: Any?) {
         super.onPostExecute(result)
-        // Check if long or lat is 0
-        val fileName = "/location.txt"
-        val file = File(context.dataDir.toString() + fileName)
-        file.bufferedWriter().use { out -> out.write(lng.toString()+ "\n" + lat.toString()) }
+        if(lng != null && lat != null){
+            val fileName = "/location.txt"
+            val file = File(context.dataDir.toString() + fileName)
+            file.bufferedWriter().use { out -> out.write(lng.toString()+ "\n" + lat.toString()) }
 
+
+        }
         checkIfPositionWritten()
+
+
     }
 
     private fun checkIfPositionWritten(){
+
         val fileName = "/location.txt"
         val file = File(context.dataDir.toString() + fileName)
         if(!file.exists()){
@@ -108,6 +114,10 @@ class LocationTask(private var context: Context, private var fusedLocationProvid
                 .create()
                 .show()
         }
+        
+        val handler = Handler()
+        handler.postDelayed({LocationTask(context, fusedLocationProviderClient, activity)}, 3600000)
+
     }
 }
 
