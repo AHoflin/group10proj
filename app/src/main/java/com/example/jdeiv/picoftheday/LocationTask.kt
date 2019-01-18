@@ -100,7 +100,7 @@ class LocationTask(private var context: Context, private var fusedLocationProvid
     }
 
     private fun checkIfPositionWritten(){
-
+        val handler = Handler()
         val fileName = "/location.txt"
         val file = File(context.dataDir.toString() + fileName)
         if(!file.exists()){
@@ -113,9 +113,10 @@ class LocationTask(private var context: Context, private var fusedLocationProvid
                 })
                 .create()
                 .show()
+            handler.postDelayed({LocationTask(context, fusedLocationProviderClient, activity)}, 10000)
         }
-        
-        val handler = Handler()
+
+
         handler.postDelayed({LocationTask(context, fusedLocationProviderClient, activity)}, 3600000)
 
     }
